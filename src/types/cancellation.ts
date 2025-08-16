@@ -1,4 +1,12 @@
-export type CancellationStep = 'job-check' | 'reason' | 'downsell' | 'confirm' | 'success' | 'feedback'
+export type CancellationStep =
+    | 'job-check'
+    | 'reason'
+    | 'feedback'
+    | 'visa'
+    | 'visa-alternative'
+    | 'downsell'
+    | 'confirm'
+    | 'success'
 
 export type ABVariant = 'A' | 'B'
 

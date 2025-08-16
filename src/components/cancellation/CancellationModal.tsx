@@ -9,6 +9,8 @@ import { DownsellStep } from './steps/DownsellStep'
 import { ConfirmStep } from './steps/ConfirmStep'
 import { SuccessStep } from './steps/SuccessStep'
 import { FeedbackStep } from './steps/FeedbackStep'
+import { VisaStep } from './steps/VisaStep'
+import { VisaAlternativeStep } from './steps/VisaAlternativeStep'
 
 export function CancellationModal() {
     const { state } = useCancellation()
@@ -19,13 +21,18 @@ export function CancellationModal() {
     }, [])
 
     const renderStep = () => {
+        // console.log('Current step:', state.step)
         switch (state.step) {
             case 'job-check':
                 return <JobCheckStep />
             case 'reason':
                 return <ReasonStep />
-            case 'feedback':        // Move this here, right after 'reason'
+            case 'feedback':
                 return <FeedbackStep />
+            case 'visa':
+                return <VisaStep />
+            case 'visa-alternative':
+                return <VisaAlternativeStep />
             case 'downsell':
                 return <DownsellStep />
             case 'confirm':
