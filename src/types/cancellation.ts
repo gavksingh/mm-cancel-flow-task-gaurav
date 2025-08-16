@@ -17,6 +17,14 @@ export interface CancellationFlowState {
     isLoading: boolean
 }
 
+export interface JobFoundResponses {
+    type: 'found_job' | 'still_searching' | 'other'
+    responses?: Array<{
+        question: string
+        answer: string
+    }>
+}
+
 export interface CancellationData {
     userId: string
     subscriptionId: string

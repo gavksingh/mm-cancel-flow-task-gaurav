@@ -49,15 +49,33 @@ export async function POST(request: NextRequest) {
         const body = await request.json()
 
         // Input validation
-        if (!body.reason || typeof body.reason !== 'string') {
+        if (!body.reason || (typeof body.reason !== 'string' && typeof body.reason !== 'object')) {
             return NextResponse.json(
                 { error: 'Invalid reason' },
                 { status: 400 }
             )
         }
 
-        // Sanitize input (prevent XSS)
-        const reason = body.reason.replace(/[<>]/g, '').trim().slice(0, 500)
+        // Parse and sanitize reason (handle both string and JSON)
+        let reason: string
+        if (typeof body.reason === 'object') {
+            // If it's a structured JSON response, stringify it
+            try {
+                reason = JSON.stringify(body.reason)
+                // Validate the structure if it's a JobFoundResponses object
+                if (body.reason.type && ['found_job', 'still_searching', 'other'].includes(body.reason.type)) {
+                    // Valid structured response
+                } else {
+                    // Fallback to stringified version
+                    reason = JSON.stringify(body.reason).slice(0, 1000)
+                }
+            } catch (error) {
+                reason = 'Invalid structured response'
+            }
+        } else {
+            // Simple string reason - sanitize input (prevent XSS)
+            reason = body.reason.replace(/[<>]/g, '').trim().slice(0, 500)
+        }
 
         // Get user's subscription
         const { data: subscription, error: subError } = await supabaseAdmin
