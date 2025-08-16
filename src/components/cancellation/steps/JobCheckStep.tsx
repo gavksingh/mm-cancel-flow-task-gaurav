@@ -29,7 +29,7 @@ export function JobCheckStep() {
             <ModalHeader title="Subscription Cancellation" />
 
             {/* Mobile Layout - Image at top */}
-            <div className="md:hidden p-4">
+            <div className="lg:hidden p-4">
                 {/* Image for mobile - with padding and rounded borders */}
                 <div className="relative w-full h-[190px] overflow-hidden rounded-xl mb-6">
                     <Image
@@ -64,7 +64,7 @@ export function JobCheckStep() {
                     <div className="space-y-3">
                         <button
                             onClick={() => handleJobResponse(true)}
-                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
+                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg cursor-pointer ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
                                 }`}
                         >
                             Yes, I&apos;ve found a job
@@ -72,7 +72,7 @@ export function JobCheckStep() {
 
                         <button
                             onClick={() => handleJobResponse(false)}
-                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
+                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg cursor-pointer ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
                                 }`}
                         >
                             Not yet - I&apos;m still looking
@@ -84,19 +84,19 @@ export function JobCheckStep() {
             </div>
 
             {/* Desktop Layout - Side by side */}
-            <div className="hidden md:flex p-8 md:p-10">
+            <div className="hidden lg:flex p-8 md:p-6 lg:p-10">
                 {/* Left Side - Text Content */}
-                <div className="flex-1 pr-0 md:pr-10">
-                    <h1 className="text-[38px] md:text-[42px] leading-[1.15] font-bold text-gray-900 mb-4">
+                <div className="flex-1 pr-0 md:pr-8 lg:pr-10 max-w-[600px] md:max-w-[500px] lg:max-w-[600px]">
+                    <h1 className="text-[38px] md:text-[36px] lg:text-[42px] leading-[1.15] font-bold text-gray-900 mb-4">
                         Hey mate,<br />
                         Quick one before you go.
                     </h1>
 
-                    <p className="text-[24px] md:text-[26px] italic text-gray-700 mb-8 font-light">
+                    <p className="text-[24px] md:text-[22px] lg:text-[26px] italic text-gray-700 mb-8 font-light">
                         Have you found a job yet?
                     </p>
 
-                    <p className="text-[15px] text-gray-600 mb-10 leading-[1.6]">
+                    <p className="text-[15px] md:text-[14px] lg:text-[15px] text-gray-600 mb-10 leading-[1.6]">
                         Whatever your answer, we just want to help you take the next step.<br />
                         With visa support, or by hearing how we can do better.
                     </p>
@@ -108,7 +108,7 @@ export function JobCheckStep() {
                     <div className="space-y-3">
                         <button
                             onClick={() => handleJobResponse(true)}
-                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
+                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg cursor-pointer ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
                                 }`}
                         >
                             Yes, I&apos;ve found a job
@@ -116,7 +116,7 @@ export function JobCheckStep() {
 
                         <button
                             onClick={() => handleJobResponse(false)}
-                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
+                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg cursor-pointer ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
                                 }`}
                         >
                             Not yet - I&apos;m still looking
@@ -128,7 +128,7 @@ export function JobCheckStep() {
 
                 {/* Right Side - Image for desktop */}
                 <div className="ml-8">
-                    <div className="relative w-[440px] h-[420px] overflow-hidden rounded-2xl">
+                    <div className="relative w-[440px] h-[420px] md:w-[370px] md:h-[350px] lg:w-[440px] lg:h-[420px] overflow-hidden rounded-2xl">
                         <Image
                             src="/empire-state-compressed.jpg"
                             alt="New York City skyline with Empire State Building"

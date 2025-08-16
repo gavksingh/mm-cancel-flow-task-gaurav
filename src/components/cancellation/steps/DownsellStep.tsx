@@ -1,14 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useCancellation } from '@/context/CancellationContext'
 import { useCancellationFlow } from '@/hooks/useCancellationFlow'
+import { useSubscription } from '@/hooks/useSubscription'
 
 export function DownsellStep() {
     const { state, dispatch } = useCancellation()
     const { submitCancellation, isSubmitting } = useCancellationFlow()
+    const { fetchSubscriptionInfo } = useSubscription()
     const [isProcessing, setIsProcessing] = useState(false)
+
+    useEffect(() => {
+        fetchSubscriptionInfo()
+    }, [])
 
     // Calculate 50% off with proper decimal formatting
     const discountedPrice = state.originalPrice / 2
@@ -27,6 +33,7 @@ export function DownsellStep() {
             dispatch({ type: 'SET_STEP', payload: 'success' })
         } catch (error) {
             console.error('Error accepting offer:', error)
+            alert('There was an error processing your request. Please try again.')
         } finally {
             setIsProcessing(false)
         }
@@ -43,6 +50,7 @@ export function DownsellStep() {
             dispatch({ type: 'SET_STEP', payload: 'confirm' })
         } catch (error) {
             console.error('Error declining offer:', error)
+            alert('There was an error processing your request. Please try again.')
         } finally {
             setIsProcessing(false)
         }
@@ -55,7 +63,7 @@ export function DownsellStep() {
     return (
         <>
             {/* Mobile Layout */}
-            <div className="md:hidden">
+            <div className="lg:hidden">
                 {/* Mobile Header */}
                 <div className="px-6 py-4 border-b border-gray-100">
                     <div className="flex items-center justify-between mb-3">
@@ -64,7 +72,7 @@ export function DownsellStep() {
                         </h1>
                         <button
                             onClick={() => dispatch({ type: 'SET_STEP', payload: 'job-check' })}
-                            className="text-gray-400 hover:text-gray-600"
+                            className="text-gray-400 hover:text-gray-600 cursor-pointer"
                         >
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -89,7 +97,7 @@ export function DownsellStep() {
                 <div className="px-4 py-2">
                     <button
                         onClick={handleBack}
-                        className="flex items-center text-gray-500 hover:text-gray-700"
+                        className="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
                     >
                         <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -123,7 +131,7 @@ export function DownsellStep() {
                         <button
                             onClick={handleAcceptOffer}
                             disabled={isProcessing || isSubmitting}
-                            className="w-full py-3.5 px-6 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
+                            className="w-full py-3.5 px-6 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 cursor-pointer"
                         >
                             {isProcessing || isSubmitting ? 'Processing...' : 'Get 50% off'}
                         </button>
@@ -145,7 +153,7 @@ export function DownsellStep() {
                     <button
                         onClick={handleDeclineOffer}
                         disabled={isProcessing || isSubmitting}
-                        className="w-full py-3.5 px-6 bg-white border-2 border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                        className="w-full py-3.5 px-6 bg-white border-2 border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 cursor-pointer"
                     >
                         No thanks
                     </button>
@@ -153,12 +161,12 @@ export function DownsellStep() {
             </div>
 
             {/* Desktop Layout */}
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
                 {/* Desktop Header */}
                 <div className="px-8 py-3 border-b border-gray-100 flex items-center justify-between">
                     <button
                         onClick={handleBack}
-                        className="flex items-center text-gray-600 hover:text-gray-900"
+                        className="flex items-center text-gray-600 hover:text-gray-900 cursor-pointer"
                     >
                         <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -181,7 +189,7 @@ export function DownsellStep() {
 
                     <button
                         onClick={() => dispatch({ type: 'SET_STEP', payload: 'job-check' })}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-gray-400 hover:text-gray-600 cursor-pointer"
                     >
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -189,20 +197,20 @@ export function DownsellStep() {
                     </button>
                 </div>
 
-                <div className="flex p-6">
+                <div className="flex p-8 md:p-6 lg:p-8">
                     {/* Left Side - Content */}
-                    <div className="flex-1 pr-9 max-w-[680px]">
-                        <h2 className="text-[32px] leading-tight font-bold text-gray-900 mb-1">
+                    <div className="flex-1 pr-9 max-w-[680px] md:max-w-[600px] lg:max-w-[680px]">
+                        <h2 className="text-[32px] md:text-[30px] lg:text-[32px] leading-tight font-bold text-gray-900 mb-1">
                             We built this to help you land the job, this makes it a little easier.
                         </h2>
 
-                        <p className="text-[16px] text-gray-600 mb-6">
+                        <p className="text-[16px] md:text-[15px] lg:text-[16px] text-gray-600 mb-6">
                             We&apos;ve been there and we&apos;re here to help you.
                         </p>
 
                         {/* Offer Box - Only this section has purple background */}
                         <div className="bg-purple-100 rounded-xl p-6">
-                            <h3 className="text-[24px] font-bold text-gray-550 mb-2">
+                            <h3 className="text-[24px] md:text-[22px] lg:text-[24px] font-bold text-gray-550 mb-2">
                                 Here&apos;s <span className="underline">50% off</span> until you find a job.
                             </h3>
 
@@ -219,7 +227,7 @@ export function DownsellStep() {
                             <button
                                 onClick={handleAcceptOffer}
                                 disabled={isProcessing || isSubmitting}
-                                className="w-full py-3.5 px-6 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
+                                className="w-full py-3.5 px-6 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 cursor-pointer"
                             >
                                 {isProcessing || isSubmitting ? 'Processing...' : 'Get 50% off'}
                             </button>
@@ -241,7 +249,7 @@ export function DownsellStep() {
                         <button
                             onClick={handleDeclineOffer}
                             disabled={isProcessing || isSubmitting}
-                            className="w-full py-3.5 px-6 bg-white border-2 border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                            className="w-full py-3.5 px-6 bg-white border-2 border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 cursor-pointer"
                         >
                             No thanks
                         </button>
@@ -249,7 +257,7 @@ export function DownsellStep() {
 
                     {/* Right Side - Image */}
                     <div className="ml-8">
-                        <div className="relative w-[480px] h-[420px] overflow-hidden rounded-2xl shadow-xl">
+                        <div className="relative w-[480px] h-[420px] md:w-[400px] md:h-[350px] lg:w-[480px] lg:h-[420px] overflow-hidden rounded-2xl shadow-xl">
                             <Image
                                 src="/empire-state-compressed.jpg"
                                 alt="New York City skyline"
