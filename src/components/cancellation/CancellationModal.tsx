@@ -11,6 +11,7 @@ import { SuccessStep } from './steps/SuccessStep'
 import { FeedbackStep } from './steps/FeedbackStep'
 import { VisaStep } from './steps/VisaStep'
 import { VisaAlternativeStep } from './steps/VisaAlternativeStep'
+import { SuccessVisaHelpStep } from './steps/SuccessVisaHelpStep'
 
 export function CancellationModal() {
     const { state } = useCancellation()
@@ -39,6 +40,8 @@ export function CancellationModal() {
                 return <ConfirmStep />
             case 'success':
                 return <SuccessStep />
+            case 'success-visa-help':
+                return <SuccessVisaHelpStep />
             default:
                 return null
         }
