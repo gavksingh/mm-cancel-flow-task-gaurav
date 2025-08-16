@@ -3,11 +3,15 @@
 import Image from 'next/image'
 import { useCancellation } from '@/context/CancellationContext'
 import { ModalHeader } from '../shared/ModalHeader'
+import { ErrorText } from '../../shared/ErrorText'
 
 export function JobCheckStep() {
-    const { dispatch } = useCancellation()
+    const { state, dispatch } = useCancellation()
 
     const handleJobResponse = (foundJob: boolean) => {
+        // Clear any previous errors
+        dispatch({ type: 'CLEAR_FIELD_ERROR', payload: 'job-selection' })
+
         dispatch({ type: 'SET_JOB_STATUS', payload: foundJob })
 
         if (foundJob) {
@@ -17,6 +21,8 @@ export function JobCheckStep() {
             dispatch({ type: 'SET_STEP', payload: 'downsell' })
         }
     }
+
+
 
     return (
         <>
@@ -58,18 +64,22 @@ export function JobCheckStep() {
                     <div className="space-y-3">
                         <button
                             onClick={() => handleJobResponse(true)}
-                            className="w-full py-4 px-6 bg-white border border-gray-300 text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg"
+                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
+                                }`}
                         >
-                            Yes, I've found a job
+                            Yes, I&apos;ve found a job
                         </button>
 
                         <button
                             onClick={() => handleJobResponse(false)}
-                            className="w-full py-4 px-6 bg-white border border-gray-300 text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg"
+                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
+                                }`}
                         >
-                            Not yet - I'm still looking
+                            Not yet - I&apos;m still looking
                         </button>
                     </div>
+
+                    <ErrorText message={state.fieldErrors['job-selection'] || ''} />
                 </div>
             </div>
 
@@ -98,18 +108,22 @@ export function JobCheckStep() {
                     <div className="space-y-3">
                         <button
                             onClick={() => handleJobResponse(true)}
-                            className="w-full py-4 px-6 bg-white border border-gray-300 text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg"
+                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
+                                }`}
                         >
-                            Yes, I've found a job
+                            Yes, I&apos;ve found a job
                         </button>
 
                         <button
                             onClick={() => handleJobResponse(false)}
-                            className="w-full py-4 px-6 bg-white border border-gray-300 text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg"
+                            className={`w-full py-4 px-6 bg-white border text-[15px] text-gray-700 font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 rounded-lg ${state.fieldErrors['job-selection'] ? 'border-red-500' : 'border-gray-300'
+                                }`}
                         >
-                            Not yet - I'm still looking
+                            Not yet - I&apos;m still looking
                         </button>
                     </div>
+
+                    <ErrorText message={state.fieldErrors['job-selection'] || ''} />
                 </div>
 
                 {/* Right Side - Image for desktop */}

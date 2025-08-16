@@ -1,4 +1,4 @@
-export type CancellationStep = 'job-check' | 'reason' | 'downsell' | 'confirm' | 'success'
+export type CancellationStep = 'job-check' | 'reason' | 'downsell' | 'confirm' | 'success' | 'feedback'
 
 export type ABVariant = 'A' | 'B'
 
@@ -15,6 +15,8 @@ export interface CancellationFlowState {
     variant: ABVariant
     originalPrice: number
     isLoading: boolean
+    error: string | null
+    fieldErrors: Record<string, string>
 }
 
 export interface JobFoundResponses {

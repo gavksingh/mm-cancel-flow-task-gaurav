@@ -15,6 +15,10 @@ type CancellationAction =
     | { type: 'SET_VARIANT'; payload: 'A' | 'B' }
     | { type: 'SET_LOADING'; payload: boolean }
     | { type: 'SET_PRICE'; payload: number }
+    | { type: 'SET_ERROR'; payload: string | null }
+    | { type: 'SET_FIELD_ERROR'; payload: { field: string; message: string } }
+    | { type: 'CLEAR_FIELD_ERROR'; payload: string }
+    | { type: 'CLEAR_ALL_ERRORS' }
 
 const initialState: CancellationFlowState = {
     step: 'job-check',
@@ -22,7 +26,9 @@ const initialState: CancellationFlowState = {
     hasFoundJob: null,
     variant: 'A',
     originalPrice: 2500,
-    isLoading: false
+    isLoading: false,
+    error: null,
+    fieldErrors: {}
 }
 
 const cancellationReducer = (
@@ -42,6 +48,22 @@ const cancellationReducer = (
             return { ...state, isLoading: action.payload }
         case 'SET_PRICE':
             return { ...state, originalPrice: action.payload }
+        case 'SET_ERROR':
+            return { ...state, error: action.payload }
+        case 'SET_FIELD_ERROR':
+            return {
+                ...state,
+                fieldErrors: {
+                    ...state.fieldErrors,
+                    [action.payload.field]: action.payload.message
+                }
+            }
+        case 'CLEAR_FIELD_ERROR':
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { [action.payload]: _, ...remainingFieldErrors } = state.fieldErrors
+            return { ...state, fieldErrors: remainingFieldErrors }
+        case 'CLEAR_ALL_ERRORS':
+            return { ...state, error: null, fieldErrors: {} }
         default:
             return state
     }

@@ -8,6 +8,7 @@ import { ReasonStep } from './steps/ReasonStep'
 import { DownsellStep } from './steps/DownsellStep'
 import { ConfirmStep } from './steps/ConfirmStep'
 import { SuccessStep } from './steps/SuccessStep'
+import { FeedbackStep } from './steps/FeedbackStep'
 
 export function CancellationModal() {
     const { state } = useCancellation()
@@ -23,6 +24,8 @@ export function CancellationModal() {
                 return <JobCheckStep />
             case 'reason':
                 return <ReasonStep />
+            case 'feedback':        // Move this here, right after 'reason'
+                return <FeedbackStep />
             case 'downsell':
                 return <DownsellStep />
             case 'confirm':

@@ -4,6 +4,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { useCancellation } from '@/context/CancellationContext'
+import { ErrorText } from '../../shared/ErrorText'
 
 interface Question {
     id: string
@@ -52,6 +53,9 @@ export function ReasonStep() {
     ])
 
     const handleOptionSelect = (questionId: string, option: string) => {
+        // Clear field error when user selects an option
+        dispatch({ type: 'CLEAR_FIELD_ERROR', payload: questionId })
+
         setQuestions(prev =>
             prev.map(q =>
                 q.id === questionId ? { ...q, value: option } : q
@@ -60,6 +64,29 @@ export function ReasonStep() {
     }
 
     const handleContinue = () => {
+        // Validate all required questions are answered
+        const unansweredQuestions = questions.filter(q => q.required && q.value === '')
+
+        if (unansweredQuestions.length > 0) {
+            // Set field errors for all unanswered questions
+            unansweredQuestions.forEach(q => {
+                dispatch({
+                    type: 'SET_FIELD_ERROR',
+                    payload: { field: q.id, message: 'This question is required' }
+                })
+            })
+
+            // Focus the first unanswered question
+            const firstUnansweredElement = document.querySelector(`[data-question-id="${unansweredQuestions[0].id}"]`)
+            if (firstUnansweredElement) {
+                firstUnansweredElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            }
+            return
+        }
+
+        // Clear all errors if validation passes
+        dispatch({ type: 'CLEAR_ALL_ERRORS' })
+
         const responses = questions.map(q => ({
             question: q.text,
             answer: q.value
@@ -73,7 +100,7 @@ export function ReasonStep() {
             })
         })
 
-        dispatch({ type: 'SET_STEP', payload: 'downsell' })
+        dispatch({ type: 'SET_STEP', payload: 'feedback' })
     }
 
     const handleBack = () => {
@@ -167,7 +194,8 @@ export function ReasonStep() {
                     {/* Questions */}
                     <div className="space-y-7">
                         {questions.map((question) => (
-                            <div key={question.id}>
+                            <div key={question.id} data-question-id={question.id} className={`transition-colors ${state.fieldErrors[question.id] ? 'p-3 border border-red-500 rounded-lg bg-red-50' : ''
+                                }`}>
                                 <p className="text-[15px] text-gray-700 mb-4">
                                     {renderQuestionText(question.text, question.underlineWord, question.required)}
                                 </p>
@@ -186,6 +214,8 @@ export function ReasonStep() {
                                         </button>
                                     ))}
                                 </div>
+
+                                <ErrorText message={state.fieldErrors[question.id] || ''} />
                             </div>
                         ))}
                     </div>
@@ -196,10 +226,9 @@ export function ReasonStep() {
                     {/* Continue Button */}
                     <button
                         onClick={handleContinue}
-                        disabled={!allQuestionsAnswered}
                         className={`w-full py-3.5 px-6 rounded-lg font-medium transition-all ${allQuestionsAnswered
                             ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            : 'bg-gray-100 text-gray-400'
                             }`}
                     >
                         Continue
@@ -256,7 +285,8 @@ export function ReasonStep() {
                         <div className="max-w-[460px]">
                             <div className="space-y-7">
                                 {/* First question with full-width Yes/No buttons */}
-                                <div>
+                                <div data-question-id={questions[0].id} className={`transition-colors ${state.fieldErrors[questions[0].id] ? 'p-3 border border-red-500 rounded-lg bg-red-50' : ''
+                                    }`}>
                                     <p className="text-[16px] text-gray-700 mb-4">
                                         {renderQuestionText(questions[0].text, questions[0].underlineWord, questions[0].required)}
                                     </p>
@@ -275,11 +305,14 @@ export function ReasonStep() {
                                             </button>
                                         ))}
                                     </div>
+
+                                    <ErrorText message={state.fieldErrors[questions[0].id] || ''} />
                                 </div>
 
                                 {/* Other questions with 4-column grid */}
                                 {questions.slice(1).map((question) => (
-                                    <div key={question.id}>
+                                    <div key={question.id} data-question-id={question.id} className={`transition-colors ${state.fieldErrors[question.id] ? 'p-3 border border-red-500 rounded-lg bg-red-50' : ''
+                                        }`}>
                                         <p className="text-[16px] text-gray-700 mb-4">
                                             {renderQuestionText(question.text, question.underlineWord, question.required)}
                                         </p>
@@ -298,6 +331,8 @@ export function ReasonStep() {
                                                 </button>
                                             ))}
                                         </div>
+
+                                        <ErrorText message={state.fieldErrors[question.id] || ''} />
                                     </div>
                                 ))}
                             </div>
@@ -308,10 +343,9 @@ export function ReasonStep() {
                             {/* Continue Button - same width as container */}
                             <button
                                 onClick={handleContinue}
-                                disabled={!allQuestionsAnswered}
                                 className={`w-full py-3.5 px-6 rounded-lg font-medium transition-all ${allQuestionsAnswered
                                     ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                    : 'bg-gray-100 text-gray-400'
                                     }`}
                             >
                                 Continue
