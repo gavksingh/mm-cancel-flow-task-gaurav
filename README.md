@@ -2,6 +2,12 @@
 
 A progressive, A/B tested subscription cancellation flow built with Next.js, TypeScript, and Supabase. Features pixel-perfect responsive design, deterministic A/B testing, and robust security implementation.
 
+## 🔗 Demo Link
+
+**👆 Start Testing Here:** [`http://localhost:3000/cancel`](http://localhost:3000/cancel)
+
+> **Prerequisites:** Run `npm run setup` first to initialize the database and start the development server.
+
 ## 🚀 Quick Start for Testers
 
 ```bash
