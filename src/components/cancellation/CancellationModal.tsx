@@ -12,6 +12,9 @@ import { FeedbackStep } from './steps/FeedbackStep'
 import { VisaStep } from './steps/VisaStep'
 import { VisaAlternativeStep } from './steps/VisaAlternativeStep'
 import { SuccessVisaHelpStep } from './steps/SuccessVisaHelpStep'
+import { SuccessDownsellStep } from './steps/SuccessDownsellStep'
+import { SurveyStep } from './steps/SurveyStep'
+import { CancellationReasonStep } from './steps/CancellationReasonStep'
 
 export function CancellationModal() {
     const { state } = useCancellation()
@@ -36,6 +39,12 @@ export function CancellationModal() {
                 return <VisaAlternativeStep />
             case 'downsell':
                 return <DownsellStep />
+            case 'success-downsell':
+                return <SuccessDownsellStep />
+            case 'survey':
+                return <SurveyStep />
+            case 'cancellation-reason':
+                return <CancellationReasonStep />
             case 'confirm':
                 return <ConfirmStep />
             case 'success':

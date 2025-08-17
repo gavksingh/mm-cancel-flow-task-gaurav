@@ -5,8 +5,10 @@ export type CancellationStep =
     | 'visa'
     | 'visa-alternative'
     | 'downsell'
-    | 'confirm'
     | 'success'
+    | 'success-visa-help'
+    | 'success-downsell'
+    | 'confirm'
 
 export type ABVariant = 'A' | 'B'
 

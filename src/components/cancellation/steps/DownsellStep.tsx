@@ -30,7 +30,7 @@ export function DownsellStep() {
                 true,
                 state.variant
             )
-            dispatch({ type: 'SET_STEP', payload: 'success' })
+            dispatch({ type: 'SET_STEP', payload: 'success-downsell' })
         } catch (error) {
             console.error('Error accepting offer:', error)
             alert('There was an error processing your request. Please try again.')
@@ -40,20 +40,8 @@ export function DownsellStep() {
     }
 
     const handleDeclineOffer = async () => {
-        setIsProcessing(true)
-        try {
-            await submitCancellation(
-                state.selectedReason || 'Still job searching',
-                false,
-                state.variant
-            )
-            dispatch({ type: 'SET_STEP', payload: 'confirm' })
-        } catch (error) {
-            console.error('Error declining offer:', error)
-            alert('There was an error processing your request. Please try again.')
-        } finally {
-            setIsProcessing(false)
-        }
+        // Don't submit cancellation yet, just go to survey
+        dispatch({ type: 'SET_STEP', payload: 'survey' })
     }
 
     const handleBack = () => {
