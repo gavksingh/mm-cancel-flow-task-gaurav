@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
 
 async function checkDocker() {
     try {
@@ -8,6 +10,42 @@ async function checkDocker() {
         return true;
     } catch (error) {
         return false;
+    }
+}
+
+async function applyMigrations() {
+    console.log('\n📝 Applying database migrations...');
+
+    const migrationsDir = path.join(__dirname, '../sql/migrations');
+
+    if (!fs.existsSync(migrationsDir)) {
+        console.log('⚠️  No migrations directory found, skipping...');
+        return;
+    }
+
+    const migrations = fs.readdirSync(migrationsDir)
+        .filter(f => f.endsWith('.sql'))
+        .sort();
+
+    for (const migration of migrations) {
+        console.log(`  Applying ${migration}...`);
+        const sqlPath = path.join(migrationsDir, migration);
+
+        try {
+            // Try using psql first
+            execSync(`PGPASSWORD=postgres psql -h localhost -p 54322 -U postgres -d postgres -f "${sqlPath}"`,
+                { stdio: 'inherit' });
+            console.log(`  ✅ ${migration} applied`);
+        } catch (error) {
+            // If psql fails, try using supabase db push
+            console.log('  Trying alternative method...');
+            try {
+                execSync(`npx supabase db push --file "${sqlPath}"`, { stdio: 'inherit' });
+                console.log(`  ✅ ${migration} applied`);
+            } catch (e) {
+                console.log(`  ⚠️  Failed to apply ${migration}, continuing...`);
+            }
+        }
     }
 }
 
@@ -51,6 +89,9 @@ async function setup() {
                 console.log('⚠️  Seeding may have failed, but continuing...');
             }
         }
+
+        // Apply migrations
+        await applyMigrations();
 
         console.log('\n' + '='.repeat(50));
         console.log('✅ Setup complete!');

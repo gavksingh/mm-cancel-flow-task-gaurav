@@ -7,8 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
     "db:setup": "node scripts/setup-all.js",
+    "setup": "npm install && npm run db:setup",
     "db:setup-original": "supabase start && PGPASSWORD=postgres psql -h localhost -p 54322 -U postgres -d postgres -f seed.sql"
   },
   "dependencies": {

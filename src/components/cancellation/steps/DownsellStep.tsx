@@ -226,12 +226,13 @@ export function DownsellStep() {
                         </div>
 
                         {/* Horizontal line with shadow */}
-                        <div className="relative my-4">
+                        {/* <div className="relative my-4">
                             <div className="absolute inset-x-0 top-1/2 -translate-y-1/2">
                                 <div className="w-full border-t border-gray-200"></div>
                                 <div className="w-full h-0.5 bg-gradient-to-b from-gray-200/50 to-transparent"></div>
                             </div>
-                        </div>
+                        </div> */}
+                        <div className="h-px bg-gray-300 my-4"></div>
 
                         {/* No thanks button */}
                         <button

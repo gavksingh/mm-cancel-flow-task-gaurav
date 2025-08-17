@@ -26,7 +26,7 @@ export function CancellationModal() {
 
     const renderStep = () => {
         // console.log('Current step:', state.step)
-        switch (state.step) {
+        switch (state.currentStep) {
             case 'job-check':
                 return <JobCheckStep />
             case 'reason':

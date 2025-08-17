@@ -242,15 +242,22 @@
 //                                     Please enter at least 25 characters so we can understand your feedback*
 //                                 </p>
 //                             )}
-//                             <textarea
-//                                 value={feedbackText}
-//                                 onChange={(e) => setFeedbackText(e.target.value)}
-//                                 placeholder=""
-//                                 className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
-//                             />
-//                             <p className="text-xs text-gray-500 text-right mt-1">
-//                                 Min 25 characters ({feedbackText.length}/25)
-//                             </p>
+//                             <div className="relative">
+//                                 <textarea
+//                                     value={feedbackText}
+//                                     onChange={(e) => setFeedbackText(e.target.value)}
+//                                     placeholder=""
+//                                     className="w-full px-3 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
+//                                 />
+//                                 <p className={`absolute bottom-2 right-3 text-xs ${attemptedContinue && feedbackText.length < 25
+//                                     ? 'text-red-600'
+//                                     : feedbackText.length >= 25
+//                                         ? 'text-green-600'
+//                                         : 'text-gray-500'
+//                                     }`}>
+//                                     Min 25 characters ({feedbackText.length}/25)
+//                                 </p>
+//                             </div>
 //                         </div>
 //                     )}
 
@@ -264,15 +271,22 @@
 //                                     Please enter at least 25 characters so we can understand your feedback*
 //                                 </p>
 //                             )}
-//                             <textarea
-//                                 value={feedbackText}
-//                                 onChange={(e) => setFeedbackText(e.target.value)}
-//                                 placeholder=""
-//                                 className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
-//                             />
-//                             <p className="text-xs text-gray-500 text-right mt-1">
-//                                 Min 25 characters ({feedbackText.length}/25)
-//                             </p>
+//                             <div className="relative">
+//                                 <textarea
+//                                     value={feedbackText}
+//                                     onChange={(e) => setFeedbackText(e.target.value)}
+//                                     placeholder=""
+//                                     className="w-full px-3 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
+//                                 />
+//                                 <p className={`absolute bottom-2 right-3 text-xs ${attemptedContinue && feedbackText.length < 25
+//                                     ? 'text-red-600'
+//                                     : feedbackText.length >= 25
+//                                         ? 'text-green-600'
+//                                         : 'text-gray-500'
+//                                     }`}>
+//                                     Min 25 characters ({feedbackText.length}/25)
+//                                 </p>
+//                             </div>
 //                         </div>
 //                     )}
 
@@ -286,15 +300,22 @@
 //                                     Please enter at least 25 characters so we can understand your feedback*
 //                                 </p>
 //                             )}
-//                             <textarea
-//                                 value={feedbackText}
-//                                 onChange={(e) => setFeedbackText(e.target.value)}
-//                                 placeholder=""
-//                                 className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
-//                             />
-//                             <p className="text-xs text-gray-500 text-right mt-1">
-//                                 Min 25 characters ({feedbackText.length}/25)
-//                             </p>
+//                             <div className="relative">
+//                                 <textarea
+//                                     value={feedbackText}
+//                                     onChange={(e) => setFeedbackText(e.target.value)}
+//                                     placeholder=""
+//                                     className="w-full px-3 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
+//                                 />
+//                                 <p className={`absolute bottom-2 right-3 text-xs ${attemptedContinue && feedbackText.length < 25
+//                                     ? 'text-red-600'
+//                                     : feedbackText.length >= 25
+//                                         ? 'text-green-600'
+//                                         : 'text-gray-500'
+//                                     }`}>
+//                                     Min 25 characters ({feedbackText.length}/25)
+//                                 </p>
+//                             </div>
 //                         </div>
 //                     )}
 
@@ -418,15 +439,22 @@
 //                                         Please enter at least 25 characters so we can understand your feedback*
 //                                     </p>
 //                                 )}
-//                                 <textarea
-//                                     value={feedbackText}
-//                                     onChange={(e) => setFeedbackText(e.target.value)}
-//                                     placeholder=""
-//                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
-//                                 />
-//                                 <p className="text-sm text-gray-500 text-right mt-1">
-//                                     Min 25 characters ({feedbackText.length}/25)
-//                                 </p>
+//                                 <div className="relative">
+//                                     <textarea
+//                                         value={feedbackText}
+//                                         onChange={(e) => setFeedbackText(e.target.value)}
+//                                         placeholder=""
+//                                         className="w-full px-4 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
+//                                     />
+//                                     <p className={`absolute bottom-2 right-3 text-sm ${attemptedContinue && feedbackText.length < 25
+//                                         ? 'text-red-600'
+//                                         : feedbackText.length >= 25
+//                                             ? 'text-green-600'
+//                                             : 'text-gray-500'
+//                                         }`}>
+//                                         Min 25 characters ({feedbackText.length}/25)
+//                                     </p>
+//                                 </div>
 //                             </div>
 //                         )}
 
@@ -440,15 +468,22 @@
 //                                         Please enter at least 25 characters so we can understand your feedback*
 //                                     </p>
 //                                 )}
-//                                 <textarea
-//                                     value={feedbackText}
-//                                     onChange={(e) => setFeedbackText(e.target.value)}
-//                                     placeholder=""
-//                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
-//                                 />
-//                                 <p className="text-sm text-gray-500 text-right mt-1">
-//                                     Min 25 characters ({feedbackText.length}/25)
-//                                 </p>
+//                                 <div className="relative">
+//                                     <textarea
+//                                         value={feedbackText}
+//                                         onChange={(e) => setFeedbackText(e.target.value)}
+//                                         placeholder=""
+//                                         className="w-full px-4 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
+//                                     />
+//                                     <p className={`absolute bottom-2 right-3 text-sm ${attemptedContinue && feedbackText.length < 25
+//                                         ? 'text-red-600'
+//                                         : feedbackText.length >= 25
+//                                             ? 'text-green-600'
+//                                             : 'text-gray-500'
+//                                         }`}>
+//                                         Min 25 characters ({feedbackText.length}/25)
+//                                     </p>
+//                                 </div>
 //                             </div>
 //                         )}
 
@@ -462,15 +497,22 @@
 //                                         Please enter at least 25 characters so we can understand your feedback*
 //                                     </p>
 //                                 )}
-//                                 <textarea
-//                                     value={feedbackText}
-//                                     onChange={(e) => setFeedbackText(e.target.value)}
-//                                     placeholder=""
-//                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
-//                                 />
-//                                 <p className="text-sm text-gray-500 text-right mt-1">
-//                                     Min 25 characters ({feedbackText.length}/25)
-//                                 </p>
+//                                 <div className="relative">
+//                                     <textarea
+//                                         value={feedbackText}
+//                                         onChange={(e) => setFeedbackText(e.target.value)}
+//                                         placeholder=""
+//                                         className="w-full px-4 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
+//                                     />
+//                                     <p className={`absolute bottom-2 right-3 text-sm ${attemptedContinue && feedbackText.length < 25
+//                                         ? 'text-red-600'
+//                                         : feedbackText.length >= 25
+//                                             ? 'text-green-600'
+//                                             : 'text-gray-500'
+//                                         }`}>
+//                                         Min 25 characters ({feedbackText.length}/25)
+//                                     </p>
+//                                 </div>
 //                             </div>
 //                         )}
 
@@ -523,12 +565,23 @@
 
 
 
+
 'use client'
 
 import { useState } from 'react'
 import Image from 'next/image'
 import { useCancellation } from '@/context/CancellationContext'
 import { useCancellationFlow } from '@/hooks/useCancellationFlow'
+
+// Define interface for parsed data
+interface ParsedReasonData {
+    jobStatus?: string
+    survey?: any
+    reason?: string
+    feedback?: string
+    maxPrice?: string
+    acceptedAfterReason?: boolean
+}
 
 export function CancellationReasonStep() {
     const { state, dispatch } = useCancellation()
@@ -547,11 +600,23 @@ export function CancellationReasonStep() {
     const handleGetOffer = async () => {
         setIsProcessing(true)
         try {
-            // Store reason data
+            // Parse existing data (including survey data)
+            let existingData: ParsedReasonData = {}
+            try {
+                if (state.selectedReason) {
+                    existingData = JSON.parse(state.selectedReason)
+                }
+            } catch (e) {
+                existingData = {}
+            }
+
+            // Store reason data with survey
             const reasonData = {
+                ...existingData,
                 reason: selectedReason,
                 feedback: feedbackText,
                 maxPrice: priceInput,
+                jobStatus: state.jobStatus || existingData.jobStatus || 'Still job searching',
                 acceptedAfterReason: true
             }
 
@@ -593,11 +658,23 @@ export function CancellationReasonStep() {
 
         setIsProcessing(true)
         try {
-            // Store reason data
+            // Parse existing data (including survey data)
+            let existingData: ParsedReasonData = {}
+            try {
+                if (state.selectedReason) {
+                    existingData = JSON.parse(state.selectedReason)
+                }
+            } catch (e) {
+                existingData = {}
+            }
+
+            // Store reason data with survey
             const reasonData = {
+                ...existingData,
                 reason: selectedReason,
                 feedback: feedbackText,
                 maxPrice: priceInput,
+                jobStatus: state.jobStatus || existingData.jobStatus || 'Still job searching',
                 acceptedAfterReason: false
             }
 
@@ -775,10 +852,10 @@ export function CancellationReasonStep() {
                                     className="w-full px-3 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
                                 />
                                 <p className={`absolute bottom-2 right-3 text-xs ${attemptedContinue && feedbackText.length < 25
-                                        ? 'text-red-600'
-                                        : feedbackText.length >= 25
-                                            ? 'text-green-600'
-                                            : 'text-gray-500'
+                                    ? 'text-red-600'
+                                    : feedbackText.length >= 25
+                                        ? 'text-green-600'
+                                        : 'text-gray-500'
                                     }`}>
                                     Min 25 characters ({feedbackText.length}/25)
                                 </p>
@@ -804,10 +881,10 @@ export function CancellationReasonStep() {
                                     className="w-full px-3 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
                                 />
                                 <p className={`absolute bottom-2 right-3 text-xs ${attemptedContinue && feedbackText.length < 25
-                                        ? 'text-red-600'
-                                        : feedbackText.length >= 25
-                                            ? 'text-green-600'
-                                            : 'text-gray-500'
+                                    ? 'text-red-600'
+                                    : feedbackText.length >= 25
+                                        ? 'text-green-600'
+                                        : 'text-gray-500'
                                     }`}>
                                     Min 25 characters ({feedbackText.length}/25)
                                 </p>
@@ -833,10 +910,10 @@ export function CancellationReasonStep() {
                                     className="w-full px-3 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
                                 />
                                 <p className={`absolute bottom-2 right-3 text-xs ${attemptedContinue && feedbackText.length < 25
-                                        ? 'text-red-600'
-                                        : feedbackText.length >= 25
-                                            ? 'text-green-600'
-                                            : 'text-gray-500'
+                                    ? 'text-red-600'
+                                    : feedbackText.length >= 25
+                                        ? 'text-green-600'
+                                        : 'text-gray-500'
                                     }`}>
                                     Min 25 characters ({feedbackText.length}/25)
                                 </p>
@@ -972,10 +1049,10 @@ export function CancellationReasonStep() {
                                         className="w-full px-4 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
                                     />
                                     <p className={`absolute bottom-2 right-3 text-sm ${attemptedContinue && feedbackText.length < 25
-                                            ? 'text-red-600'
-                                            : feedbackText.length >= 25
-                                                ? 'text-green-600'
-                                                : 'text-gray-500'
+                                        ? 'text-red-600'
+                                        : feedbackText.length >= 25
+                                            ? 'text-green-600'
+                                            : 'text-gray-500'
                                         }`}>
                                         Min 25 characters ({feedbackText.length}/25)
                                     </p>
@@ -1001,10 +1078,10 @@ export function CancellationReasonStep() {
                                         className="w-full px-4 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
                                     />
                                     <p className={`absolute bottom-2 right-3 text-sm ${attemptedContinue && feedbackText.length < 25
-                                            ? 'text-red-600'
-                                            : feedbackText.length >= 25
-                                                ? 'text-green-600'
-                                                : 'text-gray-500'
+                                        ? 'text-red-600'
+                                        : feedbackText.length >= 25
+                                            ? 'text-green-600'
+                                            : 'text-gray-500'
                                         }`}>
                                         Min 25 characters ({feedbackText.length}/25)
                                     </p>
@@ -1030,10 +1107,10 @@ export function CancellationReasonStep() {
                                         className="w-full px-4 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
                                     />
                                     <p className={`absolute bottom-2 right-3 text-sm ${attemptedContinue && feedbackText.length < 25
-                                            ? 'text-red-600'
-                                            : feedbackText.length >= 25
-                                                ? 'text-green-600'
-                                                : 'text-gray-500'
+                                        ? 'text-red-600'
+                                        : feedbackText.length >= 25
+                                            ? 'text-green-600'
+                                            : 'text-gray-500'
                                         }`}>
                                         Min 25 characters ({feedbackText.length}/25)
                                     </p>
