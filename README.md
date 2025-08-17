@@ -4,9 +4,9 @@ A progressive, A/B tested subscription cancellation flow built with Next.js, Typ
 
 ## 🔗 Demo Link
 
-**👆 Start Testing Here:** [`http://localhost:3000/cancel`](http://localhost:3000/cancel)
+**👆 Start Testing Here:** [Demo Link](https://drive.google.com/file/d/1mYrr7LIUQFVkimmg45bTSc_uwWmVGzuU/view?usp=sharing)
 
-> **Prerequisites:** Run `npm run setup` first to initialize the database and start the development server.
+
 
 ## 🚀 Quick Start for Testers
 
