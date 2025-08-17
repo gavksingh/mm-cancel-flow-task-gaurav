@@ -2,9 +2,9 @@
 
 A progressive, A/B tested subscription cancellation flow built with Next.js, TypeScript, and Supabase. Features pixel-perfect responsive design, deterministic A/B testing, and robust security implementation.
 
-## 🔗 Demo Link
+# 🔗 Demo Link - Short Demo
 
-**👆 Start Testing Here:** [Demo Link](https://drive.google.com/file/d/1mYrr7LIUQFVkimmg45bTSc_uwWmVGzuU/view?usp=sharing)
+**👆 Short Demo Here:** [Demo Link](https://drive.google.com/file/d/1mYrr7LIUQFVkimmg45bTSc_uwWmVGzuU/view?usp=sharing)
 
 
 
