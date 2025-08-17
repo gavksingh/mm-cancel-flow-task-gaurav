@@ -28,63 +28,6 @@ npm run setup
 | `npm run db:start` | Start Supabase only |
 | `npm run db:stop` | Stop Supabase only |
 
-## 🧪 Testing Guide
-
-### 1. **A/B Testing Variants**
-- **Variant A**: Skips downsell → Direct to survey
-- **Variant B**: Shows $10 discount offer ($25→$15, $29→$19)
-
-**How to Test Both Variants:**
-```bash
-# Reset for new test session
-npm run db:fresh
-
-# Visit /cancel - you'll be randomly assigned A or B
-# To test the other variant, reset database and visit again
-```
-
-### 2. **Test Scenarios**
-
-#### **Scenario 1: Found a Job Path**
-1. Select "I found a job" → Should skip downsell entirely
-2. Continue to feedback step
-3. Verify no downsell tracking in database
-
-#### **Scenario 2: Still Searching + Variant A**
-1. Select "I'm still job searching" 
-2. Should go directly to survey (no downsell)
-3. Continue through reason selection
-
-#### **Scenario 3: Still Searching + Variant B** 
-1. Select "I'm still job searching"
-2. Should see downsell offer ($25→$15 or $29→$19)
-3. Test both "Accept" and "Decline" paths
-4. Verify `downsell_shown=true` and `accepted_downsell` tracking
-
-#### **Scenario 4: Enhanced Pending Cancellation UX** 🎨
-1. Complete any cancellation flow normally
-2. Try to cancel again (`/cancel` page)
-3. Should see enhanced "Cancellation Request Received" message
-4. **Desktop**: Icon + title in one line, responsive image, full-width button
-5. **Mobile**: Compact layout, single action button
-
-#### **Scenario 5: "Other" Reason Input Field** ✏️
-1. Navigate to cancellation reasons step (via flow or direct)
-2. Select "Other" as cancellation reason
-3. **Should see**: Textarea appears with "Please tell us about your reason for cancelling*"
-4. **Test validation**: Enter <25 characters, try to continue → see error
-5. **Test success**: Enter ≥25 characters → character count turns green, form submits
-6. **Verify database**: Check `cancellations.feedback` contains "Other" text
-
-### 3. **Database Verification**
-```sql
--- Check user's cancellation record
-SELECT * FROM cancellations WHERE user_id = 'test-user-1';
-
--- Verify subscription status
-SELECT * FROM subscriptions WHERE user_id = 'test-user-1';
-```
-
 ## 🏗️ Architecture Decisions
 
 ### **Tech Stack Rationale**
@@ -157,36 +100,6 @@ Downsell shown **only when**:
 1. User assigned **Variant B**
 2. User indicates **"still job searching"**
 3. No previous downsell acceptance recorded
-
-## 🛡️ Robust Database Setup
-
-### **Problem Solved**
-**Original Issue**: Multiple subscription records caused API failures:
-```
-Error: 'JSON object requested, multiple (or no) rows returned'
-```
-
-### **Solutions Implemented**
-
-#### **1. Database Constraints**
-```sql
--- Prevent duplicate active subscriptions
-ALTER TABLE subscriptions 
-ADD CONSTRAINT unique_user_status UNIQUE (user_id, status);
-```
-
-#### **2. Robust API Queries**
-```typescript
-// Before: .single() ❌ Fails if multiple rows
-// After: Graceful handling ✅
-const { data: subscriptions } = await supabase
-  .from('subscriptions')
-  .select('*')
-  .eq('user_id', userId)
-  .order('created_at', { ascending: false });
-
-const subscription = subscriptions[0]; // Most recent
-```
 
 #### **3. Database Cleanup Tools**
 - **`npm run db:cleanup`**: Remove duplicates, clean orphaned records
