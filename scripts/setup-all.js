@@ -73,6 +73,20 @@ async function setup() {
         // Setup environment
         execSync('node scripts/setup-env.js', { stdio: 'inherit' });
 
+        // Verify environment file was created
+        const envPath = path.join(process.cwd(), '.env.local');
+        if (!fs.existsSync(envPath)) {
+            console.error('❌ Environment file not created! Creating manually...');
+            const envContent = `NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU
+DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres`;
+            fs.writeFileSync(envPath, envContent);
+            console.log('✅ Environment file created manually');
+        } else {
+            console.log('✅ Environment file verified');
+        }
+
         // Initialize Supabase
         console.log('🔧 Initializing Supabase project...');
         execSync('node scripts/init-supabase.js', { stdio: 'inherit' });
@@ -94,7 +108,7 @@ async function setup() {
             throw error;
         }
 
-        // Seed database
+        // Seed database with fresh state
         console.log('\n🌱 Seeding database...');
         try {
             execSync('PGPASSWORD=postgres psql -h localhost -p 54322 -U postgres -d postgres -f seed.sql', { stdio: 'inherit' });
@@ -107,6 +121,15 @@ async function setup() {
             } catch (e) {
                 console.log('⚠️  Seeding may have failed, but continuing...');
             }
+        }
+
+        // Ensure clean cancellations table for fresh setup
+        console.log('\n🧹 Ensuring fresh cancellations table...');
+        try {
+            execSync('PGPASSWORD=postgres psql -h localhost -p 54322 -U postgres -d postgres -c "DELETE FROM cancellations;"', { stdio: 'inherit' });
+            console.log('✅ Cancellations table cleaned');
+        } catch (error) {
+            console.log('⚠️  Could not clean cancellations table, but continuing...');
         }
 
         // Apply migrations

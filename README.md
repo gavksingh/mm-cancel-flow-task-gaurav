@@ -26,7 +26,7 @@ cd cancel-flow-task-main
 npm install
 
 # 2. Setup database and start server (one command does everything)
-npm run setup
+npm run db:setup
 # Note: If prompted during setup, press ENTER to accept defaults
 
 # 3. Setup automatically starts the dev server
@@ -254,6 +254,20 @@ UI Update ← Component ← Response ← Supabase
 3. **If persists**: `npx supabase stop && npm run setup`
 
 **Note**: The setup script now prevents auto-seeding conflicts, but existing setups may need reset.
+
+### **Setup Succeeds But App Shows Environment Errors**
+```bash
+# Error: "supabaseUrl is required" or "Unexpected token '<'"
+# Solution: Environment variables not loaded properly
+```
+1. **Check .env.local exists**: `ls -la .env.local`
+2. **Manually create if missing**: 
+   ```bash
+   echo "NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
+   SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU" > .env.local
+   ```
+3. **Restart dev server**: Stop server (Ctrl+C) and run `npm run dev`
 
 ### **Setup Fails - Node.js Version**
 ```bash

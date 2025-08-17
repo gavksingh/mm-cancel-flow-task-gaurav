@@ -11,6 +11,10 @@ console.log('🧹 Starting database cleanup...\n');
 
 const queries = [
     {
+        name: 'Clear all cancellations for fresh start',
+        sql: `DELETE FROM cancellations;`
+    },
+    {
         name: 'Remove duplicate subscriptions (keep most recent)',
         sql: `
             DELETE FROM subscriptions 
@@ -19,13 +23,6 @@ const queries = [
                 FROM subscriptions 
                 ORDER BY user_id, status, created_at DESC
             );
-        `
-    },
-    {
-        name: 'Clean up orphaned cancellations',
-        sql: `
-            DELETE FROM cancellations 
-            WHERE subscription_id NOT IN (SELECT id FROM subscriptions);
         `
     },
     {
