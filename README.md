@@ -4,9 +4,9 @@
 
 A progressive, A/B tested subscription cancellation flow built with Next.js, TypeScript, and Supabase. Features pixel-perfect responsive design, deterministic A/B testing, and robust security implementation.
 
-## 🔗 Demo Link : [Short Demo](https://drive.google.com/file/d/1mYrr7LIUQFVkimmg45bTSc_uwWmVGzuU/view?usp=sharing)
+## 🔗 Demo Link : [Short Demo](https://drive.google.com/file/d/194tNmC7gX2Kx6C0qI5MDJLmIJNpMcqN9/view?usp=sharing)
 
-> **Prerequisites:** Node.js, Docker Desktop, then run `npm run setup`
+> **Prerequisites:** Node.js, Docker Desktop
 
 ## 📋 System Requirements
 
