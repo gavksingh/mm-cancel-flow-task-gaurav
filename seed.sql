@@ -60,9 +60,19 @@ INSERT INTO users (id, email) VALUES
   ('550e8400-e29b-41d4-a716-446655440003', 'user3@example.com')
 ON CONFLICT (email) DO NOTHING;
 
+-- Add unique constraint to prevent duplicate active subscriptions per user
+DO $$ 
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'unique_user_active_subscription') THEN
+        ALTER TABLE subscriptions 
+        ADD CONSTRAINT unique_user_active_subscription 
+        UNIQUE (user_id, status);
+    END IF;
+END $$;
+
 -- Seed subscriptions with $25 and $29 plans
 INSERT INTO subscriptions (user_id, monthly_price, status) VALUES
   ('550e8400-e29b-41d4-a716-446655440001', 2500, 'active'), -- $25.00
   ('550e8400-e29b-41d4-a716-446655440002', 2900, 'active'), -- $29.00
   ('550e8400-e29b-41d4-a716-446655440003', 2500, 'active')  -- $25.00
-ON CONFLICT DO NOTHING; 
+ON CONFLICT (user_id, status) DO NOTHING; 

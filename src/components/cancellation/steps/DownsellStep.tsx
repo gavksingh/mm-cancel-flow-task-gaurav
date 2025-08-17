@@ -23,11 +23,30 @@ export function DownsellStep() {
     const originalPriceFormatted = originalPrice.toFixed(0) // Show as whole number
 
     const handleAcceptOffer = async () => {
+        console.log('🎯 [DOWNSELL] User clicked "Get 50% off" - setting acceptedDownsell: TRUE')
         setIsProcessing(true)
         try {
+            // Parse existing data to preserve it
+            let existingData = {}
+            try {
+                if (state.selectedReason) {
+                    existingData = JSON.parse(state.selectedReason)
+                }
+            } catch (e) {
+                existingData = { reason: state.selectedReason || 'Still job searching' }
+            }
+
+            const payloadData = {
+                ...existingData,
+                jobStatus: state.jobStatus || 'Still job searching',
+                acceptedAfterDownsell: true
+            }
+
+            console.log('📤 [DOWNSELL] Submitting with payload:', JSON.stringify(payloadData, null, 2))
+
             await submitCancellation(
-                JSON.stringify({ reason: state.selectedReason || 'Still job searching' }),
-                true,
+                JSON.stringify(payloadData),
+                true, // acceptedDownsell = TRUE
                 state.variant
             )
             dispatch({ type: 'SET_STEP', payload: 'success-downsell' })

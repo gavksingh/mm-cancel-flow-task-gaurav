@@ -277,13 +277,13 @@ export function ReasonStep() {
                     {/* Left Side - Questions */}
                     <div className="flex-1 pr-10 md:pr-8 lg:pr-10">
                         {/* Title with emoji inline */}
-                        <h2 className="text-[38px] md:text-[34px] lg:text-[38px] leading-tight font-bold text-gray-900 mb-8 whitespace-nowrap">
+                        <h2 className="text-[38px] md:text-[34px] lg:text-[38px] leading-tight font-bold text-gray-900 mb-6 whitespace-nowrap">
                             Congrats on the new role! 🎉
                         </h2>
 
                         {/* Set max width for all content to align */}
                         <div className="max-w-[460px] md:max-w-[420px] lg:max-w-[460px]">
-                            <div className="space-y-7">
+                            <div className="space-y-5">
                                 {/* First question with full-width Yes/No buttons */}
                                 <div data-question-id={questions[0].id} className={`transition-colors ${state.fieldErrors[questions[0].id] ? 'p-3 border border-red-500 rounded-lg bg-red-50' : ''
                                     }`}>
@@ -337,8 +337,8 @@ export function ReasonStep() {
                                 ))}
                             </div>
 
-                            {/* Horizontal line - normal spacing without spacer */}
-                            <div className="w-full border-t border-gray-200 mt-10 mb-6"></div>
+                            {/* Horizontal line - reduced spacing for desktop */}
+                            <div className="w-full border-t border-gray-200 mt-8 mb-5"></div>
 
                             {/* Continue Button - same width as container */}
                             <button
