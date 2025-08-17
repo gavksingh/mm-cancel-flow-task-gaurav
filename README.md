@@ -17,7 +17,7 @@ npm run setup
 
 **🎯 Test URL**: `http://localhost:3000/cancel`
 
-#### ** New Feature (Not mentioned in instructions.md): Enhanced Pending Cancellation UX** 🎨
+## **New Feature (Not mentioned in instructions.md): Enhanced Pending Cancellation UX** 🎨
 1. Complete any cancellation flow normally
 2. Try to cancel again (`/cancel` page)
 3. Should see enhanced "Cancellation Request Received" message
