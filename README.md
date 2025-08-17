@@ -244,7 +244,16 @@ UI Update ← Component ← Response ← Supabase
 3. **Check permissions** - Make sure you can write to the project directory
 4. **Run setup again**: `npm run setup`
 
-**Note**: Newer Supabase CLI versions may prompt for settings. Just press ENTER to accept defaults.
+### **Setup Fails - Database Schema Errors**
+```bash
+# Error: "ERROR: relation 'subscriptions' does not exist"
+# Solution: Seeding attempted before schema creation
+```
+1. **Reset database**: `npx supabase db reset`
+2. **Run setup again**: `npm run setup`
+3. **If persists**: `npx supabase stop && npm run setup`
+
+**Note**: The setup script now prevents auto-seeding conflicts, but existing setups may need reset.
 
 ### **Setup Fails - Node.js Version**
 ```bash

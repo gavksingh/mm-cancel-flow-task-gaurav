@@ -50,6 +50,14 @@ async function initSupabase() {
       // Verify that config.toml was created
       if (fs.existsSync(configPath)) {
         console.log('✅ Supabase initialized successfully');
+
+        // Replace with our safe config to prevent auto-seeding issues
+        const templatePath = path.join(process.cwd(), 'supabase-config-template.toml');
+        if (fs.existsSync(templatePath)) {
+          console.log('🔧 Applying safe configuration to prevent seeding issues...');
+          fs.copyFileSync(templatePath, configPath);
+          console.log('✅ Safe configuration applied');
+        }
       } else {
         throw new Error('Supabase config.toml not created - check if Supabase CLI installed properly');
       }
@@ -67,14 +75,26 @@ async function initSupabase() {
     }
   } else {
     console.log('ℹ️  Supabase already initialized');
+
+    // Check if we need to apply safe config to existing setup
+    const templatePath = path.join(process.cwd(), 'supabase-config-template.toml');
+    if (fs.existsSync(templatePath) && fs.existsSync(configPath)) {
+      // Check if config has auto-seeding enabled
+      const configContent = fs.readFileSync(configPath, 'utf8');
+      if (configContent.includes('enabled = true') && configContent.includes('[db.seed]')) {
+        console.log('🔧 Updating existing config to prevent seeding issues...');
+        fs.copyFileSync(templatePath, configPath);
+        console.log('✅ Safe configuration applied to existing setup');
+      }
+    }
   }
 
-  // Copy seed.sql to supabase folder if needed
-  const seedSource = path.join(process.cwd(), 'seed.sql');
+  // DO NOT copy seed.sql to supabase folder - this causes seeding order issues
+  // The main setup script will handle seeding at the right time
   const seedDest = path.join(supabasePath, 'seed.sql');
-  if (fs.existsSync(seedSource) && !fs.existsSync(seedDest)) {
-    fs.copyFileSync(seedSource, seedDest);
-    console.log('✅ Copied seed.sql to supabase folder');
+  if (fs.existsSync(seedDest)) {
+    console.log('🔧 Removing conflicting seed file to prevent order issues...');
+    fs.unlinkSync(seedDest);
   }
 }
 
