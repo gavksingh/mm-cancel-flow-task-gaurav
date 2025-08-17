@@ -107,6 +107,35 @@
 //         }
 //     }
 
+//     // Custom Radio Button Component
+//     const RadioButton = ({ value, label }: { value: string, label: string }) => (
+//         <label
+//             className="flex items-center cursor-pointer"
+//             onClick={() => handleReasonSelect(value)}
+//         >
+//             <div className="relative">
+//                 <div className={`w-5 h-5 rounded-full border-2 transition-colors ${selectedReason === value
+//                     ? 'border-gray-900 bg-gray-900'
+//                     : 'border-gray-300'
+//                     }`}>
+//                     {selectedReason === value && (
+//                         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full" />
+//                     )}
+//                 </div>
+//             </div>
+//             <span className="ml-3 text-gray-700 select-none">{label}</span>
+//         </label>
+//     )
+
+//     // Check if form is ready to submit
+//     const isFormValid = selectedReason && (
+//         selectedReason === 'Other' ||
+//         (selectedReason === 'Too expensive' && priceInput) ||
+//         ((selectedReason === 'Platform not helpful' ||
+//             selectedReason === 'Not enough relevant jobs' ||
+//             selectedReason === 'Decided not to move') && feedbackText.length >= 25)
+//     )
+
 //     return (
 //         <>
 //             {/* Mobile Layout */}
@@ -155,7 +184,7 @@
 
 //                 {/* Content */}
 //                 <div className="px-6 py-4">
-//                     <h2 className="text-[24px] leading-tight font-bold text-gray-900 mb-2">
+//                     <h2 className="text-[24px] leading-tight font-bold text-gray-650 mb-2">
 //                         What's the main reason for cancelling?
 //                     </h2>
 //                     <p className="text-[14px] text-gray-600 mb-4">
@@ -171,20 +200,12 @@
 //                         </p>
 //                     )}
 
-//                     {/* Radio Options */}
+//                     {/* Radio Options - show only selected one or all if none selected */}
 //                     <div className="space-y-3 mb-6">
 //                         {['Too expensive', 'Platform not helpful', 'Not enough relevant jobs', 'Decided not to move', 'Other'].map((reason) => (
-//                             <label key={reason} className="flex items-start cursor-pointer">
-//                                 <input
-//                                     type="radio"
-//                                     name="reason"
-//                                     value={reason}
-//                                     checked={selectedReason === reason}
-//                                     onChange={() => handleReasonSelect(reason)}
-//                                     className="mt-1 w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-900"
-//                                 />
-//                                 <span className="ml-3 text-[15px] text-gray-700">{reason}</span>
-//                             </label>
+//                             (!selectedReason || selectedReason === reason) && (
+//                                 <RadioButton key={reason} value={reason} label={reason} />
+//                             )
 //                         ))}
 //                     </div>
 
@@ -277,6 +298,9 @@
 //                         </div>
 //                     )}
 
+//                     {/* Horizontal line */}
+//                     <div className="w-full border-t border-gray-300 mb-5"></div>
+
 //                     {/* Buttons */}
 //                     <button
 //                         onClick={handleGetOffer}
@@ -289,7 +313,10 @@
 //                     <button
 //                         onClick={handleCompleteCancellation}
 //                         disabled={isProcessing || isSubmitting}
-//                         className="w-full py-3.5 px-6 bg-gray-200 text-gray-600 font-medium rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50 cursor-pointer"
+//                         className={`w-full py-3.5 px-6 font-medium rounded-lg transition-colors disabled:opacity-50 cursor-pointer ${isFormValid
+//                             ? 'bg-red-600 text-white hover:bg-red-700'
+//                             : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+//                             }`}
 //                     >
 //                         Complete cancellation
 //                     </button>
@@ -334,7 +361,7 @@
 //                 </div>
 
 //                 <div className="flex p-8 md:p-6 lg:p-8">
-//                     {/* Left Side - Content */}
+//                     {/* Left Side - Content with flex column */}
 //                     <div className="flex-1 pr-8 max-w-[600px] md:max-w-[500px] lg:max-w-[600px] flex flex-col">
 //                         <h2 className="text-[32px] md:text-[30px] lg:text-[32px] leading-tight font-bold text-gray-900 mb-2">
 //                             What's the main reason for cancelling?
@@ -349,20 +376,12 @@
 //                             </p>
 //                         )}
 
-//                         {/* Radio Options */}
+//                         {/* Radio Options - show only selected one or all if none selected */}
 //                         <div className="space-y-4 mb-6">
 //                             {['Too expensive', 'Platform not helpful', 'Not enough relevant jobs', 'Decided not to move', 'Other'].map((reason) => (
-//                                 <label key={reason} className="flex items-start cursor-pointer">
-//                                     <input
-//                                         type="radio"
-//                                         name="reason"
-//                                         value={reason}
-//                                         checked={selectedReason === reason}
-//                                         onChange={() => handleReasonSelect(reason)}
-//                                         className="mt-1 w-5 h-5 text-gray-900 border-gray-300 focus:ring-gray-900"
-//                                     />
-//                                     <span className="ml-3 text-[16px] text-gray-700">{reason}</span>
-//                                 </label>
+//                                 (!selectedReason || selectedReason === reason) && (
+//                                     <RadioButton key={reason} value={reason} label={reason} />
+//                                 )
 //                             ))}
 //                         </div>
 
@@ -455,6 +474,9 @@
 //                             </div>
 //                         )}
 
+//                         {/* Horizontal line */}
+//                         <div className="w-full border-t border-gray-300 mb-5"></div>
+
 //                         {/* Spacer to push buttons to bottom */}
 //                         <div className="flex-grow"></div>
 
@@ -471,14 +493,17 @@
 //                             <button
 //                                 onClick={handleCompleteCancellation}
 //                                 disabled={isProcessing || isSubmitting}
-//                                 className="w-full py-3.5 px-6 bg-gray-200 text-gray-600 font-medium rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50 cursor-pointer"
+//                                 className={`w-full py-3.5 px-6 font-medium rounded-lg transition-colors disabled:opacity-50 cursor-pointer ${isFormValid
+//                                     ? 'bg-red-600 text-white hover:bg-red-700'
+//                                     : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+//                                     }`}
 //                             >
 //                                 Complete cancellation
 //                             </button>
 //                         </div>
 //                     </div>
 
-//                     {/* Right Side - Image */}
+//                     {/* Right Side - Image with dynamic height */}
 //                     <div className="ml-8">
 //                         <div className="relative w-[420px] md:w-[350px] lg:w-[420px] h-full overflow-hidden rounded-2xl shadow-xl">
 //                             <Image
@@ -495,7 +520,6 @@
 //         </>
 //     )
 // }
-
 
 
 
@@ -628,6 +652,15 @@ export function CancellationReasonStep() {
         </label>
     )
 
+    // Check if form is ready to submit
+    const isFormValid = selectedReason && (
+        selectedReason === 'Other' ||
+        (selectedReason === 'Too expensive' && priceInput) ||
+        ((selectedReason === 'Platform not helpful' ||
+            selectedReason === 'Not enough relevant jobs' ||
+            selectedReason === 'Decided not to move') && feedbackText.length >= 25)
+    )
+
     return (
         <>
             {/* Mobile Layout */}
@@ -734,15 +767,22 @@ export function CancellationReasonStep() {
                                     Please enter at least 25 characters so we can understand your feedback*
                                 </p>
                             )}
-                            <textarea
-                                value={feedbackText}
-                                onChange={(e) => setFeedbackText(e.target.value)}
-                                placeholder=""
-                                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
-                            />
-                            <p className="text-xs text-gray-500 text-right mt-1">
-                                Min 25 characters ({feedbackText.length}/25)
-                            </p>
+                            <div className="relative">
+                                <textarea
+                                    value={feedbackText}
+                                    onChange={(e) => setFeedbackText(e.target.value)}
+                                    placeholder=""
+                                    className="w-full px-3 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
+                                />
+                                <p className={`absolute bottom-2 right-3 text-xs ${attemptedContinue && feedbackText.length < 25
+                                        ? 'text-red-600'
+                                        : feedbackText.length >= 25
+                                            ? 'text-green-600'
+                                            : 'text-gray-500'
+                                    }`}>
+                                    Min 25 characters ({feedbackText.length}/25)
+                                </p>
+                            </div>
                         </div>
                     )}
 
@@ -756,15 +796,22 @@ export function CancellationReasonStep() {
                                     Please enter at least 25 characters so we can understand your feedback*
                                 </p>
                             )}
-                            <textarea
-                                value={feedbackText}
-                                onChange={(e) => setFeedbackText(e.target.value)}
-                                placeholder=""
-                                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
-                            />
-                            <p className="text-xs text-gray-500 text-right mt-1">
-                                Min 25 characters ({feedbackText.length}/25)
-                            </p>
+                            <div className="relative">
+                                <textarea
+                                    value={feedbackText}
+                                    onChange={(e) => setFeedbackText(e.target.value)}
+                                    placeholder=""
+                                    className="w-full px-3 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
+                                />
+                                <p className={`absolute bottom-2 right-3 text-xs ${attemptedContinue && feedbackText.length < 25
+                                        ? 'text-red-600'
+                                        : feedbackText.length >= 25
+                                            ? 'text-green-600'
+                                            : 'text-gray-500'
+                                    }`}>
+                                    Min 25 characters ({feedbackText.length}/25)
+                                </p>
+                            </div>
                         </div>
                     )}
 
@@ -778,15 +825,22 @@ export function CancellationReasonStep() {
                                     Please enter at least 25 characters so we can understand your feedback*
                                 </p>
                             )}
-                            <textarea
-                                value={feedbackText}
-                                onChange={(e) => setFeedbackText(e.target.value)}
-                                placeholder=""
-                                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
-                            />
-                            <p className="text-xs text-gray-500 text-right mt-1">
-                                Min 25 characters ({feedbackText.length}/25)
-                            </p>
+                            <div className="relative">
+                                <textarea
+                                    value={feedbackText}
+                                    onChange={(e) => setFeedbackText(e.target.value)}
+                                    placeholder=""
+                                    className="w-full px-3 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
+                                />
+                                <p className={`absolute bottom-2 right-3 text-xs ${attemptedContinue && feedbackText.length < 25
+                                        ? 'text-red-600'
+                                        : feedbackText.length >= 25
+                                            ? 'text-green-600'
+                                            : 'text-gray-500'
+                                    }`}>
+                                    Min 25 characters ({feedbackText.length}/25)
+                                </p>
+                            </div>
                         </div>
                     )}
 
@@ -805,7 +859,10 @@ export function CancellationReasonStep() {
                     <button
                         onClick={handleCompleteCancellation}
                         disabled={isProcessing || isSubmitting}
-                        className="w-full py-3.5 px-6 bg-gray-200 text-gray-600 font-medium rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50 cursor-pointer"
+                        className={`w-full py-3.5 px-6 font-medium rounded-lg transition-colors disabled:opacity-50 cursor-pointer ${isFormValid
+                            ? 'bg-red-600 text-white hover:bg-red-700'
+                            : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                            }`}
                     >
                         Complete cancellation
                     </button>
@@ -907,15 +964,22 @@ export function CancellationReasonStep() {
                                         Please enter at least 25 characters so we can understand your feedback*
                                     </p>
                                 )}
-                                <textarea
-                                    value={feedbackText}
-                                    onChange={(e) => setFeedbackText(e.target.value)}
-                                    placeholder=""
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
-                                />
-                                <p className="text-sm text-gray-500 text-right mt-1">
-                                    Min 25 characters ({feedbackText.length}/25)
-                                </p>
+                                <div className="relative">
+                                    <textarea
+                                        value={feedbackText}
+                                        onChange={(e) => setFeedbackText(e.target.value)}
+                                        placeholder=""
+                                        className="w-full px-4 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
+                                    />
+                                    <p className={`absolute bottom-2 right-3 text-sm ${attemptedContinue && feedbackText.length < 25
+                                            ? 'text-red-600'
+                                            : feedbackText.length >= 25
+                                                ? 'text-green-600'
+                                                : 'text-gray-500'
+                                        }`}>
+                                        Min 25 characters ({feedbackText.length}/25)
+                                    </p>
+                                </div>
                             </div>
                         )}
 
@@ -929,15 +993,22 @@ export function CancellationReasonStep() {
                                         Please enter at least 25 characters so we can understand your feedback*
                                     </p>
                                 )}
-                                <textarea
-                                    value={feedbackText}
-                                    onChange={(e) => setFeedbackText(e.target.value)}
-                                    placeholder=""
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
-                                />
-                                <p className="text-sm text-gray-500 text-right mt-1">
-                                    Min 25 characters ({feedbackText.length}/25)
-                                </p>
+                                <div className="relative">
+                                    <textarea
+                                        value={feedbackText}
+                                        onChange={(e) => setFeedbackText(e.target.value)}
+                                        placeholder=""
+                                        className="w-full px-4 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
+                                    />
+                                    <p className={`absolute bottom-2 right-3 text-sm ${attemptedContinue && feedbackText.length < 25
+                                            ? 'text-red-600'
+                                            : feedbackText.length >= 25
+                                                ? 'text-green-600'
+                                                : 'text-gray-500'
+                                        }`}>
+                                        Min 25 characters ({feedbackText.length}/25)
+                                    </p>
+                                </div>
                             </div>
                         )}
 
@@ -951,15 +1022,22 @@ export function CancellationReasonStep() {
                                         Please enter at least 25 characters so we can understand your feedback*
                                     </p>
                                 )}
-                                <textarea
-                                    value={feedbackText}
-                                    onChange={(e) => setFeedbackText(e.target.value)}
-                                    placeholder=""
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
-                                />
-                                <p className="text-sm text-gray-500 text-right mt-1">
-                                    Min 25 characters ({feedbackText.length}/25)
-                                </p>
+                                <div className="relative">
+                                    <textarea
+                                        value={feedbackText}
+                                        onChange={(e) => setFeedbackText(e.target.value)}
+                                        placeholder=""
+                                        className="w-full px-4 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
+                                    />
+                                    <p className={`absolute bottom-2 right-3 text-sm ${attemptedContinue && feedbackText.length < 25
+                                            ? 'text-red-600'
+                                            : feedbackText.length >= 25
+                                                ? 'text-green-600'
+                                                : 'text-gray-500'
+                                        }`}>
+                                        Min 25 characters ({feedbackText.length}/25)
+                                    </p>
+                                </div>
                             </div>
                         )}
 
@@ -982,7 +1060,10 @@ export function CancellationReasonStep() {
                             <button
                                 onClick={handleCompleteCancellation}
                                 disabled={isProcessing || isSubmitting}
-                                className="w-full py-3.5 px-6 bg-gray-200 text-gray-600 font-medium rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50 cursor-pointer"
+                                className={`w-full py-3.5 px-6 font-medium rounded-lg transition-colors disabled:opacity-50 cursor-pointer ${isFormValid
+                                    ? 'bg-red-600 text-white hover:bg-red-700'
+                                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                                    }`}
                             >
                                 Complete cancellation
                             </button>

@@ -26,7 +26,7 @@ export function DownsellStep() {
         setIsProcessing(true)
         try {
             await submitCancellation(
-                state.selectedReason || 'Still job searching',
+                JSON.stringify({ reason: state.selectedReason || 'Still job searching' }),
                 true,
                 state.variant
             )
