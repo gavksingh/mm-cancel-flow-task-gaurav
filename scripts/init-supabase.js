@@ -18,8 +18,31 @@ async function initSupabase() {
       // Ensure we're in the right directory
       console.log(`🔍 Current directory: ${process.cwd()}`);
 
-      // Initialize supabase without prompts
-      execSync('npx supabase init --no-prompt', { stdio: 'inherit' });
+      // Initialize supabase with default settings
+      console.log('🔄 Running: npx supabase init');
+      console.log('📝 Note: If prompted, press ENTER to accept defaults');
+
+      // Use spawn for better interaction handling
+      const { spawn } = require('child_process');
+
+      await new Promise((resolve, reject) => {
+        const child = spawn('npx', ['supabase', 'init'], {
+          stdio: 'inherit',
+          shell: process.platform === 'win32'
+        });
+
+        child.on('close', (code) => {
+          if (code === 0) {
+            resolve();
+          } else {
+            reject(new Error(`Supabase init failed with code ${code}`));
+          }
+        });
+
+        child.on('error', (error) => {
+          reject(error);
+        });
+      });
 
       // Wait a moment for files to be created
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -38,7 +61,7 @@ async function initSupabase() {
       console.error('   3. Permission issues in current directory');
       console.error('\n💡 Try running these commands manually:');
       console.error('   npx supabase --version');
-      console.error('   npx supabase init --no-prompt');
+      console.error('   npx supabase init');
       console.error('   Then check if supabase/config.toml exists\n');
       throw error;
     }

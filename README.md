@@ -27,6 +27,7 @@ npm install
 
 # 2. Setup database and start server (one command does everything)
 npm run setup
+# Note: If prompted during setup, press ENTER to accept defaults
 
 # 3. Setup automatically starts the dev server
 # Visit: http://localhost:3000/cancel
@@ -235,12 +236,15 @@ UI Update ← Component ← Response ← Supabase
 ### **Setup Fails - Supabase Config Missing**
 ```bash
 # Error: "cannot read config in ... open supabase/config.toml: no such file or directory"
+# OR: "unknown flag: --no-prompt"
 # Solution: Supabase initialization failed
 ```
-1. **Check internet connection** - Supabase CLI needs to download components
-2. **Try manual initialization**: `npx supabase init --no-prompt`
+1. **Manual initialization**: `npx supabase init` (press ENTER for defaults)
+2. **Verify creation**: Check if `supabase/config.toml` exists
 3. **Check permissions** - Make sure you can write to the project directory
 4. **Run setup again**: `npm run setup`
+
+**Note**: Newer Supabase CLI versions may prompt for settings. Just press ENTER to accept defaults.
 
 ### **Setup Fails - Node.js Version**
 ```bash
