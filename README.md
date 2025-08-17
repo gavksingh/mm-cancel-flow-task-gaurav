@@ -232,6 +232,16 @@ UI Update ← Component ← Response ← Supabase
 3. Wait for Docker to fully start (green icon in system tray)
 4. Run `npm run setup` again
 
+### **Setup Fails - Supabase Config Missing**
+```bash
+# Error: "cannot read config in ... open supabase/config.toml: no such file or directory"
+# Solution: Supabase initialization failed
+```
+1. **Check internet connection** - Supabase CLI needs to download components
+2. **Try manual initialization**: `npx supabase init --no-prompt`
+3. **Check permissions** - Make sure you can write to the project directory
+4. **Run setup again**: `npm run setup`
+
 ### **Setup Fails - Node.js Version**
 ```bash
 # Error: Node version issues

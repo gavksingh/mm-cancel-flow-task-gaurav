@@ -74,11 +74,25 @@ async function setup() {
         execSync('node scripts/setup-env.js', { stdio: 'inherit' });
 
         // Initialize Supabase
+        console.log('🔧 Initializing Supabase project...');
         execSync('node scripts/init-supabase.js', { stdio: 'inherit' });
 
         // Start Supabase
         console.log('\n🐘 Starting Supabase...\n');
-        execSync('npx supabase start', { stdio: 'inherit' });
+        try {
+            execSync('npx supabase start', { stdio: 'inherit' });
+        } catch (error) {
+            console.error('\n❌ Failed to start Supabase!');
+            console.error('🔍 Common causes:');
+            console.error('   1. Docker not running properly');
+            console.error('   2. Ports 54321/54322 already in use');
+            console.error('   3. Supabase initialization incomplete');
+            console.error('\n💡 Try these solutions:');
+            console.error('   1. Restart Docker Desktop');
+            console.error('   2. Run: npx kill-port 54321 54322');
+            console.error('   3. Run: npm run setup again\n');
+            throw error;
+        }
 
         // Seed database
         console.log('\n🌱 Seeding database...');
