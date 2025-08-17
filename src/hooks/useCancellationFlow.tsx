@@ -56,6 +56,14 @@ export function useCancellationFlow() {
 
             console.log('✅ Cancellation submitted successfully:', data)
 
+            // Check if subscription was already pending cancellation
+            if (data.alreadyPending) {
+                console.log('ℹ️ Subscription already pending, redirecting to pending page')
+                dispatch({ type: 'SET_STEP', payload: 'pending-cancellation' })
+                // Return special object to indicate to calling components not to navigate
+                return { ...data, __skipNavigation: true }
+            }
+
             // If accepted downsell, payment processing would happen here
             if (acceptedDownsell && variant === 'B') {
                 console.log('💳 Payment processing would happen here for downsell')

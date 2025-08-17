@@ -15,6 +15,7 @@ import { SuccessVisaHelpStep } from './steps/SuccessVisaHelpStep'
 import { SuccessDownsellStep } from './steps/SuccessDownsellStep'
 import { SurveyStep } from './steps/SurveyStep'
 import { CancellationReasonStep } from './steps/CancellationReasonStep'
+import { PendingCancellationStep } from './PendingCancellationStep'
 
 export function CancellationModal() {
     const { state } = useCancellation()
@@ -51,6 +52,8 @@ export function CancellationModal() {
                 return <SuccessStep />
             case 'success-visa-help':
                 return <SuccessVisaHelpStep />
+            case 'pending-cancellation':
+                return <PendingCancellationStep />
             default:
                 return null
         }

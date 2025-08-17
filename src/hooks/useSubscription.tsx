@@ -26,6 +26,11 @@ export function useSubscription() {
             const data = await response.json()
             console.log('✅ Subscription data:', data)
 
+            // Validate subscription data
+            if (!data.subscription_id) {
+                throw new Error('Unable to load subscription information. Please try again.')
+            }
+
             // Set price in context (already in cents from API)
             if (data.price) {
                 dispatch({ type: 'SET_PRICE', payload: data.price })

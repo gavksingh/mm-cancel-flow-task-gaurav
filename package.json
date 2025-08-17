@@ -13,6 +13,8 @@
     "db:setup": "node scripts/setup-all.js",
     "db:cleanup": "node scripts/cleanup-db.js",
     "db:fresh": "npm run db:stop && npm run db:start && npm run db:setup",
+    "db:ensure-test": "node scripts/ensure-test-subscription.js",
+    "test:pending-cancellation": "node scripts/test-pending-cancellation.js",
     "setup": "npm install && npm run db:setup",
     "db:setup-original": "supabase start && PGPASSWORD=postgres psql -h localhost -p 54322 -U postgres -d postgres -f seed.sql"
   },

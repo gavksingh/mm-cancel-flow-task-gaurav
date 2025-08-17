@@ -44,12 +44,16 @@ export function DownsellStep() {
 
             console.log('📤 [DOWNSELL] Submitting with payload:', JSON.stringify(payloadData, null, 2))
 
-            await submitCancellation(
+            const result = await submitCancellation(
                 JSON.stringify(payloadData),
                 true, // acceptedDownsell = TRUE
                 state.variant
             )
-            dispatch({ type: 'SET_STEP', payload: 'success-downsell' })
+
+            // Only navigate if not already pending
+            if (!result.__skipNavigation) {
+                dispatch({ type: 'SET_STEP', payload: 'success-downsell' })
+            }
         } catch (error) {
             console.error('Error accepting offer:', error)
             alert('There was an error processing your request. Please try again.')

@@ -24,6 +24,7 @@ export function CancellationReasonStep() {
     const [showError, setShowError] = useState(false)
     const [feedbackText, setFeedbackText] = useState('')
     const [priceInput, setPriceInput] = useState('')
+    const [otherText, setOtherText] = useState('')
     const [attemptedContinue, setAttemptedContinue] = useState(false)
 
     // Calculate the discounted price
@@ -47,19 +48,22 @@ export function CancellationReasonStep() {
             const reasonData = {
                 ...existingData,
                 reason: selectedReason,
-                feedback: feedbackText,
+                feedback: selectedReason === 'Other' ? otherText : feedbackText,
                 maxPrice: priceInput,
                 jobStatus: state.jobStatus || existingData.jobStatus || 'Still job searching',
                 acceptedAfterReason: true
             }
 
-            await submitCancellation(
+            const result = await submitCancellation(
                 JSON.stringify(reasonData),
                 true, // accepting downsell
                 state.variant
             )
 
-            dispatch({ type: 'SET_STEP', payload: 'success-downsell' })
+            // Only navigate if not already pending
+            if (!result.__skipNavigation) {
+                dispatch({ type: 'SET_STEP', payload: 'success-downsell' })
+            }
         } catch (error) {
             console.error('Error accepting offer:', error)
             alert('There was an error processing your request. Please try again.')
@@ -89,6 +93,11 @@ export function CancellationReasonStep() {
             return
         }
 
+        if (selectedReason === 'Other' && otherText.length < 25) {
+            setAttemptedContinue(true)
+            return
+        }
+
         setIsProcessing(true)
         try {
             // Parse existing data (including survey data)
@@ -105,20 +114,22 @@ export function CancellationReasonStep() {
             const reasonData = {
                 ...existingData,
                 reason: selectedReason,
-                feedback: feedbackText,
+                feedback: selectedReason === 'Other' ? otherText : feedbackText,
                 maxPrice: priceInput,
                 jobStatus: state.jobStatus || existingData.jobStatus || 'Still job searching',
                 acceptedAfterReason: false
             }
 
-            await submitCancellation(
+            const result = await submitCancellation(
                 JSON.stringify(reasonData),
                 false, // declining downsell
                 state.variant
             )
 
-            // Go to confirm step
-            dispatch({ type: 'SET_STEP', payload: 'confirm' })
+            // Only navigate if not already pending
+            if (!result.__skipNavigation) {
+                dispatch({ type: 'SET_STEP', payload: 'confirm' })
+            }
         } catch (error) {
             console.error('Error completing cancellation:', error)
             alert('There was an error processing your request. Please try again.')
@@ -164,7 +175,7 @@ export function CancellationReasonStep() {
 
     // Check if form is ready to submit
     const isFormValid = selectedReason && (
-        selectedReason === 'Other' ||
+        (selectedReason === 'Other' && otherText.length >= 25) ||
         (selectedReason === 'Too expensive' && priceInput) ||
         ((selectedReason === 'Platform not helpful' ||
             selectedReason === 'Not enough relevant jobs' ||
@@ -349,6 +360,35 @@ export function CancellationReasonStep() {
                                         : 'text-gray-500'
                                     }`}>
                                     Min 25 characters ({feedbackText.length}/25)
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
+                    {selectedReason === 'Other' && (
+                        <div className="mb-6">
+                            <p className="text-[14px] text-gray-700 mb-3">
+                                Please tell us about your reason for cancelling*
+                            </p>
+                            {attemptedContinue && otherText.length < 25 && (
+                                <p className="text-[13px] text-red-600 mb-2">
+                                    Please enter at least 25 characters so we can understand your feedback*
+                                </p>
+                            )}
+                            <div className="relative">
+                                <textarea
+                                    value={otherText}
+                                    onChange={(e) => setOtherText(e.target.value)}
+                                    placeholder=""
+                                    className="w-full px-3 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-32 resize-none"
+                                />
+                                <p className={`absolute bottom-2 right-3 text-xs ${attemptedContinue && otherText.length < 25
+                                    ? 'text-red-600'
+                                    : otherText.length >= 25
+                                        ? 'text-green-600'
+                                        : 'text-gray-500'
+                                    }`}>
+                                    Min 25 characters ({otherText.length}/25)
                                 </p>
                             </div>
                         </div>
@@ -546,6 +586,35 @@ export function CancellationReasonStep() {
                                             : 'text-gray-500'
                                         }`}>
                                         Min 25 characters ({feedbackText.length}/25)
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+
+                        {selectedReason === 'Other' && (
+                            <div className="mb-8">
+                                <p className="text-[16px] text-gray-700 mb-3">
+                                    Please tell us about your reason for cancelling*
+                                </p>
+                                {attemptedContinue && otherText.length < 25 && (
+                                    <p className="text-[14px] text-red-600 mb-2">
+                                        Please enter at least 25 characters so we can understand your feedback*
+                                    </p>
+                                )}
+                                <div className="relative">
+                                    <textarea
+                                        value={otherText}
+                                        onChange={(e) => setOtherText(e.target.value)}
+                                        placeholder=""
+                                        className="w-full px-4 py-3 pb-8 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400 h-36 resize-none text-[16px]"
+                                    />
+                                    <p className={`absolute bottom-2 right-3 text-sm ${attemptedContinue && otherText.length < 25
+                                        ? 'text-red-600'
+                                        : otherText.length >= 25
+                                            ? 'text-green-600'
+                                            : 'text-gray-500'
+                                        }`}>
+                                        Min 25 characters ({otherText.length}/25)
                                     </p>
                                 </div>
                             </div>

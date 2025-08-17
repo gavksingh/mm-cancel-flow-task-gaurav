@@ -12,6 +12,7 @@ export type CancellationStep =
     | 'success-visa-help'
     | 'success-downsell'
     | 'confirm'
+    | 'pending-cancellation'
 
 export type ABVariant = 'A' | 'B'
 

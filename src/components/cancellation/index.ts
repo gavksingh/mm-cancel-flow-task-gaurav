@@ -1,5 +1,6 @@
 // Export all cancellation components from this barrel file
 export { CancellationModal } from './CancellationModal'
+export { PendingCancellationStep } from './PendingCancellationStep'
 
 // Export step components if needed elsewhere
 export { JobCheckStep } from './steps/JobCheckStep'

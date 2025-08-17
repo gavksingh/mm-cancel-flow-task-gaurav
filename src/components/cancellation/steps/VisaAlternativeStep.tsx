@@ -48,16 +48,19 @@ export function VisaAlternativeStep() {
             }
 
             // Submit cancellation with all collected data
-            await submitCancellation(
+            const result = await submitCancellation(
                 JSON.stringify(updatedReason),
                 false, // not accepting downsell since they found a job
                 state.variant
             )
 
-            if (visaAssistance === 'yes') {
-                dispatch({ type: 'SET_STEP', payload: 'success' })
-            } else {
-                dispatch({ type: 'SET_STEP', payload: 'success-visa-help' })
+            // Only navigate if not already pending
+            if (!result.__skipNavigation) {
+                if (visaAssistance === 'yes') {
+                    dispatch({ type: 'SET_STEP', payload: 'success' })
+                } else {
+                    dispatch({ type: 'SET_STEP', payload: 'success-visa-help' })
+                }
             }
         } catch (error) {
             console.error('Error completing cancellation:', error)

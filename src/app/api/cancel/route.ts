@@ -10,16 +10,15 @@ export async function GET() {
             .from('subscriptions')
             .select('*')
             .eq('user_id', MOCK_USER_ID)
-            .eq('status', 'active')
+            .in('status', ['active', 'pending_cancellation'])
             .order('created_at', { ascending: false })
 
         if (error || !subscriptions || subscriptions.length === 0) {
-            console.log('ℹ️ [API] No active subscription found, returning default')
-            return NextResponse.json({
-                price: 2500,
-                subscription_id: null,
-                status: 'active'
-            })
+            console.log('❌ [API] No valid subscription found:', error)
+            return NextResponse.json(
+                { error: 'No valid subscription found' },
+                { status: 404 }
+            )
         }
 
         // Take the most recent active subscription
@@ -32,7 +31,8 @@ export async function GET() {
         return NextResponse.json({
             price: subscription.monthly_price,
             subscription_id: subscription.id,
-            status: subscription.status
+            status: subscription.status,
+            isPendingCancellation: subscription.status === 'pending_cancellation'
         })
     } catch (error) {
         console.error('GET error:', error)
@@ -67,13 +67,13 @@ export async function POST(request: NextRequest) {
             .from('subscriptions')
             .select('*')
             .eq('user_id', MOCK_USER_ID)
-            .eq('status', 'active')
+            .in('status', ['active', 'pending_cancellation'])
             .order('created_at', { ascending: false })
 
         if (subError || !subscriptions || subscriptions.length === 0) {
-            console.log('❌ [API] No active subscription found:', subError)
+            console.log('❌ [API] No valid subscription found:', subError)
             return NextResponse.json(
-                { error: 'No active subscription found' },
+                { error: 'No valid subscription found' },
                 { status: 404 }
             )
         }
@@ -86,6 +86,17 @@ export async function POST(request: NextRequest) {
         }
 
         console.log('✅ [API] Subscription found:', subscription.id)
+
+        // Check if subscription is already pending cancellation
+        if (subscription.status === 'pending_cancellation') {
+            console.log('ℹ️ [API] Subscription already pending cancellation, returning special response')
+            return NextResponse.json({
+                success: true,
+                alreadyPending: true,
+                variant: 'A', // Default variant for already pending
+                message: 'Cancellation already in progress'
+            })
+        }
 
         // Check for existing cancellation to get variant
         const { data: existingCancellation } = await supabaseAdmin
