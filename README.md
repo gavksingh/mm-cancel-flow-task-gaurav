@@ -1,23 +1,34 @@
 # 🏗️ Migrate Mate - Subscription Cancellation Flow
 
+> **🎯 Status**: Ready for testing | **⏱️ Setup Time**: 3-5 minutes | **🔧 Dependencies**: Node.js + Docker
+
 A progressive, A/B tested subscription cancellation flow built with Next.js, TypeScript, and Supabase. Features pixel-perfect responsive design, deterministic A/B testing, and robust security implementation.
 
-# 🔗 Demo Link - Short Demo
+## 🔗 Demo Link : [Short Demo](https://drive.google.com/file/d/1mYrr7LIUQFVkimmg45bTSc_uwWmVGzuU/view?usp=sharing)
 
-**👆 Short Demo Here:** [Demo Link](https://drive.google.com/file/d/1mYrr7LIUQFVkimmg45bTSc_uwWmVGzuU/view?usp=sharing)
+> **Prerequisites:** Node.js, Docker Desktop, then run `npm run setup`
 
+## 📋 System Requirements
 
+- **Node.js**: v18+ ([Download](https://nodejs.org/))
+- **Docker Desktop**: Latest ([Download](https://www.docker.com/products/docker-desktop))
 
 ## 🚀 Quick Start for Testers
 
+**Prerequisites**: 
+- Node.js (v18+)
+- Docker Desktop ([Install here](https://www.docker.com/products/docker-desktop))
+
 ```bash
-# 1. Install dependencies
+# 1. Clone and install
+git clone <repo-url>
+cd cancel-flow-task-main
 npm install
 
-# 2. Setup database and start everything
+# 2. Setup database and start server (one command does everything)
 npm run setup
 
-# 3. Access the application
+# 3. Setup automatically starts the dev server
 # Visit: http://localhost:3000/cancel
 ```
 
@@ -32,12 +43,14 @@ npm run setup
 
 | Command | Purpose |
 |---------|---------|
-| `npm run setup` | Complete setup (install + database) |
-| `npm run dev` | Start development server |
+| `npm run setup` | **One-click setup**: Install deps + database + start dev server |
+| `npm run dev` | Start development server (only if not already running) |
 | `npm run db:fresh` | **Clean reset** - Use when testing from scratch |
 | `npm run db:cleanup` | Remove duplicate data issues |
 | `npm run db:start` | Start Supabase only |
 | `npm run db:stop` | Stop Supabase only |
+
+> **Note**: `npm run setup` automatically starts the development server. No need to run `npm run dev` separately.
 
 ## 🏗️ Architecture Decisions
 
@@ -209,6 +222,33 @@ UI Update ← Component ← Response ← Supabase
 
 ## 🚨 Troubleshooting
 
+### **Setup Fails - Docker Not Found**
+```bash
+# Error: "Docker is not installed or not running!"
+# Solution: Install Docker Desktop and make sure it's running
+```
+1. Download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop)
+2. Install and start Docker Desktop
+3. Wait for Docker to fully start (green icon in system tray)
+4. Run `npm run setup` again
+
+### **Setup Fails - Node.js Version**
+```bash
+# Error: Node version issues
+# Solution: Use Node.js v18 or higher
+```
+1. Check version: `node --version`
+2. If < v18, download from [nodejs.org](https://nodejs.org/)
+3. Run `npm run setup` again
+
+### **Port Already in Use**
+```bash
+# Error: "Port 3000 is already in use"
+# Solution: Kill existing processes or use different port
+```
+1. Kill existing: `npx kill-port 3000`
+2. Or restart: `npm run db:fresh`
+
 ### **API Returns Error**
 ```bash
 # Check API health
@@ -224,6 +264,12 @@ npm run db:fresh
 # Or clean just duplicates
 npm run db:cleanup
 ```
+
+### **Still Having Issues?**
+1. **Check Docker is running**: Look for Docker whale icon in system tray
+2. **Check ports**: Make sure 3000, 54321, 54322 are available
+3. **Check Node version**: Must be v18+
+4. **Try fresh setup**: `npm run db:fresh`
 
 ### **Check Logs**
 API includes detailed logging:

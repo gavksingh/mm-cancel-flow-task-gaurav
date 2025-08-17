@@ -56,7 +56,12 @@ async function setup() {
     if (!await checkDocker()) {
         console.error('❌ Docker is not installed or not running!');
         console.error('📦 Please install Docker Desktop from: https://www.docker.com/products/docker-desktop');
-        console.error('   and make sure it\'s running before continuing.\n');
+        console.error('   and make sure it\'s running before continuing.');
+        console.error('\n🔍 How to fix:');
+        console.error('   1. Install Docker Desktop');
+        console.error('   2. Start Docker Desktop application');
+        console.error('   3. Wait for Docker whale icon to appear in system tray');
+        console.error('   4. Run "npm run setup" again\n');
         process.exit(1);
     }
 
@@ -96,8 +101,13 @@ async function setup() {
         console.log('\n' + '='.repeat(50));
         console.log('✅ Setup complete!');
         console.log('='.repeat(50));
-        console.log('\n🚀 Run "npm run dev" to start the application');
-        console.log('📱 Then visit http://localhost:3000/cancel\n');
+        console.log('\n🚀 Starting development server...');
+        console.log('📱 Visit http://localhost:3000/cancel to start testing');
+        console.log('\n💡 Server will start automatically - no need to run "npm run dev"');
+        console.log('⏳ Starting server now...\n');
+
+        // Start the development server
+        execSync('npm run dev', { stdio: 'inherit' });
     } catch (error) {
         console.error('❌ Setup failed:', error.message);
         process.exit(1);
