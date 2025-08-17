@@ -26,7 +26,7 @@ cd cancel-flow-task-main
 npm install
 
 # 2. Setup database and start server (one command does everything)
-npm run db:setup
+npm run setup
 # Note: If prompted during setup, press ENTER to accept defaults
 
 # 3. Setup automatically starts the dev server
@@ -47,7 +47,7 @@ npm run db:setup
 | `npm run setup` | **One-click setup**: Install deps + database + start dev server |
 | `npm run dev` | Start development server (only if not already running) |
 | `npm run db:fresh` | **Clean reset** - Use when testing from scratch |
-| `npm run db:cleanup` | Remove duplicate data issues |
+| `npm run db:cleanup` | **Fresh state** - Reset to 3 active subscriptions, 0 cancellations |
 | `npm run db:start` | Start Supabase only |
 | `npm run db:stop` | Stop Supabase only |
 

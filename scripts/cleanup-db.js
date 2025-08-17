@@ -15,22 +15,17 @@ const queries = [
         sql: `DELETE FROM cancellations;`
     },
     {
-        name: 'Remove duplicate subscriptions (keep most recent)',
-        sql: `
-            DELETE FROM subscriptions 
-            WHERE id NOT IN (
-                SELECT DISTINCT ON (user_id, status) id 
-                FROM subscriptions 
-                ORDER BY user_id, status, created_at DESC
-            );
-        `
+        name: 'Reset to clean subscription state - delete all existing subscriptions',
+        sql: `DELETE FROM subscriptions;`
     },
     {
-        name: 'Reset all subscriptions to active status',
+        name: 'Insert fresh active subscriptions for testing',
         sql: `
-            UPDATE subscriptions 
-            SET status = 'active', updated_at = NOW() 
-            WHERE status != 'active';
+            INSERT INTO subscriptions (user_id, monthly_price, status) VALUES
+            ('550e8400-e29b-41d4-a716-446655440001', 2500, 'active'),
+            ('550e8400-e29b-41d4-a716-446655440002', 2900, 'active'),
+            ('550e8400-e29b-41d4-a716-446655440003', 2500, 'active')
+            ON CONFLICT DO NOTHING;
         `
     },
     {

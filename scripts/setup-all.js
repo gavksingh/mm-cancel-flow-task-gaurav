@@ -123,13 +123,19 @@ DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres`;
             }
         }
 
-        // Ensure clean cancellations table for fresh setup
-        console.log('\n🧹 Ensuring fresh cancellations table...');
+        // Ensure completely fresh database state for testing
+        console.log('\n🧹 Ensuring fresh database state...');
         try {
+            // Clear all cancellations
             execSync('PGPASSWORD=postgres psql -h localhost -p 54322 -U postgres -d postgres -c "DELETE FROM cancellations;"', { stdio: 'inherit' });
             console.log('✅ Cancellations table cleaned');
+
+            // Reset subscriptions to fresh active state
+            execSync('PGPASSWORD=postgres psql -h localhost -p 54322 -U postgres -d postgres -c "DELETE FROM subscriptions; INSERT INTO subscriptions (user_id, monthly_price, status) VALUES (\'550e8400-e29b-41d4-a716-446655440001\', 2500, \'active\'), (\'550e8400-e29b-41d4-a716-446655440002\', 2900, \'active\'), (\'550e8400-e29b-41d4-a716-446655440003\', 2500, \'active\');"', { stdio: 'inherit' });
+            console.log('✅ Subscriptions reset to fresh active state');
+
         } catch (error) {
-            console.log('⚠️  Could not clean cancellations table, but continuing...');
+            console.log('⚠️  Could not clean database tables, but continuing...');
         }
 
         // Apply migrations
